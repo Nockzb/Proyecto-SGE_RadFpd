@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   vista: string;
   href: string;
   url: string;
+  nombre_publico: string;
 
   constructor(private menuService: MenuService, private authService: AuthService, private router: Router) {
     this.getMenu();
@@ -24,6 +25,7 @@ export class NavbarComponent implements OnInit {
     this.username = localStorage.getItem('usuario');
     this.grupo = localStorage.getItem('ultimoGrupo');
     this.vista = localStorage.getItem('ultimaOpcion');
+    this.nombre_publico = localStorage.getItem('nombre_publico')
   }
 
   salir() {
