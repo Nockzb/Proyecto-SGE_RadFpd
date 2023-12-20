@@ -30,11 +30,12 @@ export class FamiliasComponent implements OnInit {
 
   idFamiliaFilter = new FormControl();
   familiaFilter = new FormControl();
+  cod_familiaFilter = new FormControl();
 
   permises: Permises;
 
   displayedColumns: string[];
-  private filterValues = { id_familia: '', familia: '' };
+  private filterValues = { id_familia: '', familia: '' , cod_familia: ''};
 
   constructor(
     public dialog: MatDialog,
@@ -53,7 +54,7 @@ export class FamiliasComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.familiasService.familia = RESPONSE.data as Familia[];
-      this.displayedColumns = ['id_familia', 'familia', 'actions'];
+      this.displayedColumns = ['id_familia', 'familia', 'cod_familia', 'actions'];
       this.dataSource.data = this.familiasService.familia;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -103,7 +104,8 @@ export class FamiliasComponent implements OnInit {
       const searchTerms = JSON.parse(filter);
 
       return familia.id_familia.toString().indexOf(searchTerms.id_familia) !== -1
-        && familia.familia.toLowerCase().indexOf(searchTerms.familia.toLowerCase()) !== -1;
+        && familia.familia.toLowerCase().indexOf(searchTerms.familia.toLowerCase()) !== -1
+        && familia.cod_familia.toLowerCase().indexOf(searchTerms.cod_familia.toLowerCase()) !== -1;
     };
 
     return filterFunction;
@@ -119,6 +121,12 @@ export class FamiliasComponent implements OnInit {
     this.familiaFilter.valueChanges
     .subscribe(value => {
         this.filterValues.familia = value;
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    });      
+
+    this.cod_familiaFilter.valueChanges
+    .subscribe(value => {
+        this.filterValues.cod_familia = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });      
   }
