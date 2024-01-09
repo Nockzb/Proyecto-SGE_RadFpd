@@ -80,6 +80,7 @@ const routes: Routes = [
     path: '**',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
   },
+  { path: 'unidades-centro', loadChildren: () => import('./unidades-centro/unidades-centro.module').then(m => m.UnidadesCentroModule) },
 ];
 
 @NgModule({
