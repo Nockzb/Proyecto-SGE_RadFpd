@@ -5,155 +5,141 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
-import { Permises } from 'src/app/shared/interfaces/api-response';
+import { Permises } from '../shared/interfaces/api-response';
+import { combineLatest } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
-import { Unidad } from 'src/app/shared/interfaces/unidad';
-import { UnidadesService } from 'src/app/services/unidades.service';
+import { UnidadCentro } from '../shared/interfaces/unidad-centro';
+import { UnidadesCentroService } from '../services/unidades-centro.service';
 
 import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
 import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
-import { Entidad } from '../shared/interfaces/entidad';
-import { EntidadesService } from '../services/entidades.service';
 
 @Component({
   selector: 'app-unidades-centro',
-  templateUrl: './unidades-centro.component.html',
-  styleUrls: ['./unidades-centro.component.scss']
+  templateUrl: './unidades-centro.component.html'
 })
-export class UnidadesCentroComponent implements OnInit {
+export class UnidadesCentrosComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  dataSource: MatTableDataSource<Unidad> = new MatTableDataSource();
+  dataSource: MatTableDataSource<UnidadCentro> = new MatTableDataSource();
 
-  idUnidadFilter = new FormControl();
+  idUnidadCentroFilter = new FormControl();
+  unidadCentroFilter = new FormControl();
   idCicloFilter = new FormControl();
-  unidadFilter = new FormControl();
-  plazasFilter = new FormControl();
-  idUnidadDualFilter = new FormControl();
-  idMotivoNodualFilter = new FormControl();
-  entidad: Entidad;
+  observacionesFilter = new FormControl();
 
   permises: Permises;
 
   displayedColumns: string[];
-  private filterValues = { id_unidad: '', id_ciclo: '', unidad: '', plazas: '', id_unidad_dual: '', id_motivo_nodual: '' };
+  private filterValues = { id_unidad_centro: '', unidad_centro: '', id_ciclo: '', observaciones: ''};
 
   constructor(
     public dialog: MatDialog,
-    private unidadesService: UnidadesService,
-    private overlay: Overlay,
-
-    public entidadService: EntidadesService
+    private unidadesCentrosService: UnidadesCentroService,
+    private overlay: Overlay
   ) { }
 
   ngOnInit(): void {
-    this.entidad = this.entidadService.entidad;
-    this.getUnidades(this.entidad);
-    //this.createFilter();
-    //this.onChanges();
+    this.getUnidadesCentros();
+    //this.unidadesDualService.ENTIDAD = "test";
   }
 
-  
-  async getUnidades(entidad: Entidad) {
-    const RESPONSE = await this.unidadesService.getUnidades(entidad.id_entidad).toPromise();
+
+  async getUnidadesCentros() {
+    const RESPONSE = await this.unidadesCentrosService.getAllUnidadesCentro().toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
-      this.unidadesService.unidad = RESPONSE.data as Unidad[];
-      this.displayedColumns = ['id_ciclo', 'unidad', 'plazas', 'id_unidad_dual', 'id_motivo_nodual', 'actions'];
-      this.dataSource.data = this.unidadesService.unidad;
+      this.unidadesCentrosService.unidadCentro = RESPONSE.data as UnidadCentro[];
+      this.displayedColumns = ['id_unidad_centro', 'unidad_centro', 'id_ciclo', 'observaciones', 'actions'];
+      this.dataSource.data = this.unidadesCentrosService.unidadCentro;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
       this.onChanges();
-    }  
+    }
   }
 
-  async addUnidad(idEntidad: number) {
-    const dialogRef = this.dialog.open(AddUnidadesCentroComponent, { data: idEntidad, scrollStrategy: this.overlay.scrollStrategies.noop() });
+  async addUnidadCentro() {
+    const dialogRef = this.dialog.open(AddUnidadesCentroComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        this.ngOnInit();
-      }
-    }  
-  }
-
-  async editUnidad(unidad: Unidad) {
-    const dialogRef = this.dialog.open(EditUnidadesCentroComponent, { data: unidad, scrollStrategy: this.overlay.scrollStrategies.noop() });
-    const RESULT = await dialogRef.afterClosed().toPromise();
-    if (RESULT) {
-      if (RESULT.ok) {
-        this.ngOnInit();
-      }
-    }  
-  }
-
-  async deleteUnidad(unidad: Unidad) {
-    const dialogRef = this.dialog.open(DeleteUnidadesCentroComponent, { data: unidad, scrollStrategy: this.overlay.scrollStrategies.noop() });
-    const RESULT = await dialogRef.afterClosed().toPromise();
-    if (RESULT) {
-      if (RESULT.ok) {
+        //this.unidadesDualService.unidadDual.push(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
       }
     }
   }
-  
 
-  createFilter(): (unidad: Unidad, filter: string) => boolean {
-    const filterFunction = (unidad: Unidad, filter: string): boolean => {
+  async editUnidadCentro(unidadCentro: UnidadCentro) {
+    const dialogRef = this.dialog.open(EditUnidadesCentroComponent, { data: unidadCentro, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        //this.unidadesDualService.editUnidadDual(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
+        this.ngOnInit();
+      }
+    }
+  }
+async deleteUnidadCentro(unidadCentro: UnidadCentro) {
+    const dialogRef = this.dialog.open(DeleteUnidadesCentroComponent, { data: unidadCentro, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        //this.unidadesDualService.deleteUnidadDual(RESULT.data);
+        //this.dataSource.data = this.unidadesDualService.unidadDual;
+        this.ngOnInit();
+      }
+    }
+  }
+
+  createFilter(): (unidadCentro: UnidadCentro, filter: string) => boolean {
+    const filterFunction = (unidadCentro: UnidadCentro, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
-
-      return unidad.id_unidad.toString().indexOf(searchTerms.id_unidad) !== -1
-        && unidad.fk_ciclo.toLowerCase().indexOf(searchTerms.fk_ciclo.toLowerCase()) !== -1
-        && unidad.unidad.toLowerCase().indexOf(searchTerms.unidad.toLowerCase()) !== -1
-        && unidad.plazas.toString().indexOf(searchTerms.plazas.toLowerCase()) !== -1
-        && unidad.fk_unidad_dual.toLowerCase().indexOf(searchTerms.fk_unidad_dual.toLowerCase()) !== -1
-        && unidad.fk_motivo_nodual.toLowerCase().indexOf(searchTerms.fk_motivo_nodual.toLowerCase()) !== -1;
-        // TODO Arreglar esto
+      if(unidadCentro.observaciones!=null){
+        return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
+          && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
+          && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
+      }else{
+        unidadCentro.observaciones=""
+        return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
+        && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
+        && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1
+      }
     };
 
     return filterFunction;
   }
 
   onChanges() {
-    this.idUnidadFilter.valueChanges.subscribe(value => {
-        this.filterValues.id_unidad = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+      this.idUnidadCentroFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.id_unidad_centro = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
 
-    this.idCicloFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.id_ciclo = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+      this.unidadCentroFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.unidad_centro = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
+      
+      this.idCicloFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.unidad_centro = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
 
-    this.unidadFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.unidad = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.plazasFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.plazas = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.idUnidadDualFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.id_unidad_dual = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.idMotivoNodualFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.id_motivo_nodual = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
+      this.observacionesFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.observaciones = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
   }
-
 }

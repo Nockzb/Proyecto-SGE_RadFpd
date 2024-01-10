@@ -1,25 +1,19 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UnidadesCentroComponent } from './unidades-centro.component';
-import { MatTableModule } from '@angular/material/table';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
+
+import { UnidadesCentroRoutingModule } from './unidades-centro-routing.module';
+import { CrudMaterialModule } from '../modules/crud-material/crud-material.module';
+import { UnidadesCentrosComponent } from './unidades-centro.component';
+import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
+import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
+import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
 
 @NgModule({
-  declarations: [UnidadesCentroComponent],
+  declarations: [UnidadesCentrosComponent, AddUnidadesCentroComponent, EditUnidadesCentroComponent, DeleteUnidadesCentroComponent],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatTableModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatInputModule
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    UnidadesCentroRoutingModule,
+    CrudMaterialModule
+  ]
 })
 export class UnidadesCentroModule { }

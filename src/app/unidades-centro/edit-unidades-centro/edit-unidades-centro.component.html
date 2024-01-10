@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <h3 mat-dialog-title>Editar {{ENTIDAD}}</h3>
 
     <form class="mat-dialog-content" [formGroup]="unidadForm">
@@ -31,7 +31,7 @@
             <mat-form-field>
                 <mat-label>¿Unidad Dual?</mat-label>
                 <mat-select formControlName="id_unidad_dual" required (valueChange)="unidadDual($event)">
-                    <!-- <mat-option value="">Sin unidad dual</mat-option> -->
+                    QUITAR LINEA >>>>>>>>>>>>>>> <mat-option value="">Sin unidad dual</mat-option> 
                     <mat-option *ngFor="let idUD of unidades_dual" [value]="idUD.id_unidad_dual">
                         {{idUD.unidad_dual}}
                     </mat-option>
@@ -63,4 +63,4 @@
         </div>
 
     </form>
-</div>
+</div> -->
