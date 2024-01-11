@@ -4,10 +4,10 @@
 
             <ng-container matColumnDef="id_unidad_centro">
                 <th mat-header-cell *matHeaderCellDef>
-                    <input matInput [formControl]="idUnidadCentroFilter" placeholder="Id">
+                    <input matInput [formControl]="idUnidadCentroFilter" placeholder="Id Unidad Centro">
                     <span mat-sort-header></span>
                 </th>
-                <td mat-cell *matCellDef="let unidadesCentro"> {{unidadesCentro.id_unidad_dual}} </td>
+                <td mat-cell *matCellDef="let unidadesCentro"> {{unidadesCentro.id_unidad_centro}} </td>
             </ng-container>
 
             <ng-container matColumnDef="unidad_centro">
