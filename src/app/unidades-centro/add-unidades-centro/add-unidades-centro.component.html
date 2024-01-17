@@ -6,17 +6,17 @@
 
     <div class="form">
       <mat-form-field color="accent">
-        <input matInput placeholder="Unidad Centro" formControlName="unidad_centro" name="unidad" maxlength="100" required>
+        <input matInput placeholder="Unidad Centro" formControlName="unidad_centro" name="unidad" maxlength="5" required>
       </mat-form-field>
     </div>
 
     <div class="form">
         <mat-form-field>
-            <mat-label>Id Ciclo</mat-label>
+            <mat-label>Ciclo</mat-label>
             <mat-select formControlName="id_ciclo" required>
                 <mat-option value="">Sin ciclo</mat-option>
                 <mat-option *ngFor="let idC of ciclos" [value]="idC.id_ciclo">
-                    {{ idC.id_ciclo }}
+                    {{ idC.ciclo }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
