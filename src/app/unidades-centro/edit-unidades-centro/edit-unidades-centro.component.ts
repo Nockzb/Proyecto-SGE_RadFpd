@@ -2,15 +2,11 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnidadesService } from 'src/app/services/unidades.service';
-import { Unidad } from 'src/app/shared/interfaces/unidad';
-import { CLOSE, ENTIDAD_UNIDAD, ERROR } from 'src/app/shared/messages';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
+import { CLOSE, ENTIDAD_UNIDAD_CENTRO, ERROR } from 'src/app/shared/messages';
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
 import { CiclosService } from 'src/app/services/ciclos.service';
-import { UnidadDual } from 'src/app/shared/interfaces/unidad-dual';
-import { UnidadesDualService } from 'src/app/services/unidades-dual.service';
-import { MotivoNodual } from 'src/app/shared/interfaces/motivo-nodual';
-import { MotivosNodualService } from 'src/app/services/motivos-nodual.service';
+import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 
 @Component({
   selector: 'app-edit-unidades-centro',
@@ -19,70 +15,97 @@ import { MotivosNodualService } from 'src/app/services/motivos-nodual.service';
 })
 export class EditUnidadesCentroComponent implements OnInit {
 
-  unidadForm: FormGroup;
+  unidadCentroForm: FormGroup;
   ciclos: Ciclo[];
-  unidades_dual: UnidadDual[];
-  motivos_nodual: MotivoNodual[];
-
-  // Para autocompletar...
-  //familias: any[]
-  //arrayFiltradoAutocomplete: any[] = [];
-  //filteredOptions: Observable<any[]>;
-
   ENTIDAD: String;
-  esDual = true;
 
 
   constructor(
     public dialogRef: MatDialogRef<EditUnidadesCentroComponent>,
     private snackBar: MatSnackBar,
-    private servicioUnidades: UnidadesService,
-    @Inject(MAT_DIALOG_DATA) public unidad: Unidad,
+    private servicioUnidadesCentro: UnidadesCentroService,
     private servicioCiclos: CiclosService,
-    private servicioUnidadesDual: UnidadesDualService,
-    private servicioMotivosNodual: MotivosNodualService,
-
+    @Inject(MAT_DIALOG_DATA) public unidadCentro: UnidadCentro
   ) { }
 
   ngOnInit(): void {
-    this.setForm();
-    //this.setFilter();
-  }
+    this.ENTIDAD = ENTIDAD_UNIDAD_CENTRO;
+    this.unidadCentroForm = new FormGroup({
+      id_unidad_centro: new FormControl(this.unidadCentro.id_unidad_centro),
+      unidad_centro: new FormControl(this.unidadCentro.unidad_centro, Validators.required),
+      id_ciclo:new FormControl(this.unidadCentro.id_ciclo, Validators.required),
+      observaciones: new FormControl(this.unidadCentro.observaciones)
 
-  setForm() {
-    this.ENTIDAD = ENTIDAD_UNIDAD;
-    this.unidadForm = new FormGroup({
-      id_unidad: new FormControl(this.unidad.id_unidad, Validators.required),
-      id_entidad: new FormControl(this.unidad.id_entidad, Validators.required),
-      id_ciclo: new FormControl(this.unidad.id_ciclo, Validators.required),
-      unidad: new FormControl(this.unidad.unidad, Validators.required),
-      plazas: new FormControl(this.unidad.plazas, Validators.required),
-      id_unidad_dual: new FormControl(this.unidad.id_unidad_dual, Validators.required),
-      id_motivo_nodual: new FormControl(this.unidad.id_motivo_nodual),
-      observaciones: new FormControl(null)
     });
-
-    this.unidadDual(this.unidad.id_unidad_dual);
-
     this.getCiclos();
-    this.getUnidadesDual();
-    this.getMotivosNodual(this.unidad.id_entidad);
   }
 
-  async confirmEdit(){
-    console.log(this.unidad);
-    if (this.unidadForm.valid) {
-      const unidadForm = this.unidadForm.value;
+  // ngOnInit(): void {
+  //   this.setForm();
+  //   //this.setFilter();
+  // }
 
-      const RESPONSE = await this.servicioUnidades.editUnidad(unidadForm).toPromise();
-      if (RESPONSE.ok) {
-        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-      } else { 
-        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 }); 
+  // setForm() {
+  //   this.ENTIDAD = ENTIDAD_UNIDAD;
+  //   this.unidadCentroForm = new FormGroup({
+  //     id_unidad_centro: new FormControl(this.unidadCentro.id_unidad_centro, Validators.required),
+  //     unidad_centro: new FormControl(this.unidadCentro.unidad_centro, Validators.required),
+  //     id_ciclo: new FormControl(this.unidadCentro.id_ciclo, Validators.required),
+  //     observaciones: new FormControl(null)
+  //   });
+
+  //   this.getCiclos();
+  // }
+
+  // async confirmEdit(){
+  //   // console.log(this.unidadCentro);
+  //   if (this.unidadCentroForm.valid) {
+  //     const unidadCentroForm = this.unidadCentroForm.value;
+
+  //     const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(unidadCentroForm).toPromise();
+  //     if (RESPONSE.ok) {
+  //       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+  //       this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
+  //     } else {
+  //       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+  //     }
+  //   } else {
+  //     this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
+  //   }
+  // }
+
+  // async confirmEdit(){
+  //   if (this.unidadCentroForm.valid) {
+  //     const unidadCentroForm = this.unidadCentroForm.value;
+
+  //     const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(unidadCentroForm).toPromise();
+  //     if (RESPONSE.ok) {
+  //       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+  //       this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
+  //     } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
+  //   } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
+  // }
+  async confirmEdit() {
+    if (this.unidadCentroForm.valid) {
+      const unidadCentroForm = this.unidadCentroForm.value;
+
+      try {
+        const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(unidadCentroForm).toPromise();
+
+        if (RESPONSE.ok) {
+          this.snackBar.open(RESPONSE.message || 'Operación exitosa', CLOSE, { duration: 5000 });
+          this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
+        } else {
+          const errorMessage = RESPONSE.message || 'Ocurrió un fallo sin mensaje detallado';
+          console.error('Error al editar la unidad centro:', errorMessage);
+          this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
+        }
+      } catch (error) {
+        console.error('Error inesperado:', error); // Agrega esta línea
+        this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
       }
-    } else { 
-      this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); 
+    } else {
+      this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
     }
   }
 
@@ -93,26 +116,7 @@ export class EditUnidadesCentroComponent implements OnInit {
     }
   }
 
-  async getUnidadesDual(){
-    const RESPONSE = await this.servicioUnidadesDual.getAllUnidadesDual().toPromise();
-    if (RESPONSE.ok){
-      this.unidades_dual = RESPONSE.data as UnidadDual[];
-    }
-  }
-
-  async getMotivosNodual(idEntidad: number){
-    const RESPONSE = await this.servicioMotivosNodual.get(idEntidad).toPromise();
-    if (RESPONSE.ok){
-      this.motivos_nodual = RESPONSE.data as MotivoNodual[];
-    }
-  }
-  
   onNoClick() {
     this.dialogRef.close({ ok: false });
-  }
-
-  async unidadDual(ud: number) {
-    this.esDual = (ud > 1);
-    console.log(this.esDual);
   }
 }
