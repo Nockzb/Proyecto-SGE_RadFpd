@@ -1,22 +1,26 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
+import { CLOSE, ENTIDAD_UNIDAD_CENTRO, ERROR } from '../../shared/messages';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
-import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
-import { CLOSE, ENTIDAD_UNIDAD_CENTRO, ERROR } from 'src/app/shared/messages';
+import { AlumnosService } from 'src/app/services/alumnos.service';
+import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { CiclosService } from 'src/app/services/ciclos.service';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 @Component({
   selector: 'app-edit-unidades-centro',
   templateUrl: './edit-unidades-centro.component.html',
   styleUrls: ['./edit-unidades-centro.component.scss']
 })
+
 export class EditUnidadesCentroComponent implements OnInit {
 
   unidadesCentroForm: FormGroup;
-  ciclos: Ciclo[];
+  ciclos: Ciclo[];  
+  alumnos: Alumno[];
   ENTIDAD: String;
 
   constructor(
@@ -24,7 +28,8 @@ export class EditUnidadesCentroComponent implements OnInit {
     private snackBar: MatSnackBar,
     private servicioUnidadesCentro: UnidadesCentroService,
     private servicioCiclos: CiclosService,
-    @Inject(MAT_DIALOG_DATA) public unidadesCentro: UnidadCentro
+    @Inject(MAT_DIALOG_DATA) public unidadesCentro: UnidadCentro,
+    private servicioAlumnos: AlumnosService
   ) { }
 
   ngOnInit(): void {
@@ -35,14 +40,16 @@ export class EditUnidadesCentroComponent implements OnInit {
       id_ciclo: new FormControl(this.unidadesCentro.id_ciclo, Validators.required),
       observaciones: new FormControl(this.unidadesCentro.observaciones)
     });
+    
     this.getCiclos();
+    this.getAlumnos();
   }
 
   async confirmEdit(){
     if (this.unidadesCentroForm.valid) {
-      const familiaForm = this.unidadesCentroForm.value;
+      const uniCenForm = this.unidadesCentroForm.value;
 
-      const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(familiaForm).toPromise();
+      const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(uniCenForm).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
         this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
@@ -50,16 +57,28 @@ export class EditUnidadesCentroComponent implements OnInit {
     } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
   }
 
-    async getCiclos(){
+  // async getProvincias(){
+  //   const RESPONSE = await this.servicioProvincia.getAllProvincias().toPromise();
+  //   if (RESPONSE.ok){
+  //     this.provincias = RESPONSE.data as Provincia[];
+  //   }
+  // }
+
+  async getCiclos(){
     const RESPONSE = await this.servicioCiclos.getAllCiclos().toPromise();
     if (RESPONSE.ok){
       this.ciclos = RESPONSE.data as Ciclo[];
     }
   }
 
+  async getAlumnos(){
+    const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
+    if (RESPONSE.ok){
+      this.alumnos = RESPONSE.data as Alumno[];
+    }
+  }
+  
   onNoClick() {
     this.dialogRef.close({ ok: false });
   }
-
 }
-

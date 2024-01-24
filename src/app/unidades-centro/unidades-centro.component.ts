@@ -9,12 +9,15 @@ import { Permises } from '../shared/interfaces/api-response';
 import { combineLatest } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
+import { SelectionModel } from '@angular/cdk/collections';
 import { UnidadCentro } from '../shared/interfaces/unidad-centro';
 import { UnidadesCentroService } from '../services/unidades-centro.service';
 
 import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
 import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
+import { AlumnosService } from '../services/alumnos.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-unidades-centro',
@@ -31,16 +34,30 @@ export class UnidadesCentrosComponent implements OnInit {
   unidadCentroFilter = new FormControl();
   idCicloFilter = new FormControl();
   observacionesFilter = new FormControl();
+  idAlumnoFilter = new FormControl();
+
+  isChecked = false;
+  isCheckedAll = false;
+  pageSizeChecked: number;
+  pageIndexChecked: number;
 
   permises: Permises;
 
+  selection: SelectionModel<UnidadCentro>;
+  unidadCentro: UnidadCentro;
+
   displayedColumns: string[];
-  private filterValues = { id_unidad_centro: '', unidad_centro: '', id_ciclo: '', observaciones: ''};
+  private filterValues = { id_unidad_centro: '', unidad_centro: '', id_ciclo: '', observaciones: '', id_alumno: ''};
 
   constructor(
     public dialog: MatDialog,
     private unidadesCentrosService: UnidadesCentroService,
-    private overlay: Overlay
+    private servicioAlumnos: AlumnosService,
+    
+    
+    private overlay: Overlay,
+    private clipboard: Clipboard,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -60,6 +77,7 @@ export class UnidadesCentrosComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
+      this.selection = new SelectionModel<UnidadCentro>(false, [this.unidadCentro]);
       this.onChanges();
     }
   }
@@ -96,6 +114,15 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
         //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
       }
+    }
+  }
+
+  changePage() {
+    if (this.isCheckedAll) {
+      this.isChecked = true;
+    } else {
+      this.isChecked = (((this.pageIndexChecked + 1) * this.pageSizeChecked) /
+      ((this.dataSource.paginator.pageIndex + 1) * this.dataSource.paginator.pageSize)) >= 1;
     }
   }
 
@@ -139,6 +166,12 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
       this.observacionesFilter.valueChanges
       .subscribe(value => {
           this.filterValues.observaciones = value;
+          this.dataSource.filter = JSON.stringify(this.filterValues);
+      });
+
+      this.idAlumnoFilter.valueChanges
+      .subscribe(value => {
+          this.filterValues.id_alumno = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
       });
   }

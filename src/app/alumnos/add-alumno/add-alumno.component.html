@@ -1,17 +1,42 @@
 <!-- <div class="container">
     <h3 mat-dialog-title>Editar {{ENTIDAD}}</h3>
 
-    <form class="mat-dialog-content" [formGroup]="entidadForm">
+    <form class="mat-dialog-content" [formGroup]="contactoForm">
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Entidad" formControlName="entidad" name="entidad" maxlength="100">
+                <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" maxlength="100">
             </mat-form-field>
         </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Código/CIF/NIF" formControlName="codigo" name="codigo" maxlength="100">
+                <input matInput placeholder="Apellidos" formControlName="apellidos" name="apellidos" maxlength="100" required>
+            </mat-form-field>
+        </div>
+
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="Email" formControlName="email" name="email" maxlength="100" ngModel [email]="true" required>
+                <small *ngIf="email.errors?.email" class="text-danger">Introduzca una dirección de correo electrónico válida</small>
+            </mat-form-field>
+        </div>
+
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="Corporativo Largo" formControlName="corporativo_largo" name="corporativo_largo" maxlength="100">
+            </mat-form-field>
+        </div>
+
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="Corporativo Corto" formControlName="corporativo_corto" name="corporativo_corto" maxlength="100">
+            </mat-form-field>
+        </div>
+
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="Telefono Personal" formControlName="telefono_personal" name="telefono_personal" maxlength="100">
             </mat-form-field>
         </div>
 
@@ -29,23 +54,29 @@
 
         <div class="form">
             <mat-form-field>
-                <mat-label>Dinamizador/a</mat-label>
-                <mat-select formControlName="id_contacto" required>
-                    <mat-option value="">Sin dinamizador/a</mat-option>
-                    <mat-option *ngFor="let idC of contactos" [value]="idC.id_contacto">
-                        {{idC.nombre_completo}}
+                <mat-label>Entidad</mat-label>
+                <mat-select formControlName="id_entidad" required>
+                    <mat-option value="">Sin entidad</mat-option>
+                    <mat-option *ngFor="let idE of entidades" [value]="idE.id_entidad">
+                        {{idE.entidad}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
         <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="Cargo" formControlName="cargo" name="cargo" maxlength="100">
+            </mat-form-field>
+        </div>
+
+        <div class="form">
             <mat-form-field>
-                <mat-label>Tipo Entidad</mat-label>
-                <mat-select formControlName="id_tipo_entidad">
-                    <mat-option value="">Sin tipo entidad</mat-option>
-                    <mat-option *ngFor="let idTE of tipos_entidad" [value]="idTE.id_tipo_entidad">
-                        {{idTE.tipo_entidad}}
+                <mat-label>Familia Profesional</mat-label>
+                <mat-select formControlName="id_familia">
+                    <mat-option value="">Sin familia profesional</mat-option>
+                    <mat-option *ngFor="let idF of familias" [value]="idF.id_familia">
+                        {{idF.familia}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -83,30 +114,12 @@
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Teléfono" formControlName="telefono" name="telefono" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Email" formControlName="email" name="email" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Web" formControlName="web" name="web" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
                 <textarea matInput placeholder="Observaciones" formControlName="observaciones" name="Observaciones"></textarea>
             </mat-form-field>
         </div>
 
         <div mat-dialog-actions>
-            <button mat-button id="onSubmit" type="submit" [disabled]="!entidadForm.valid" (click)="confirmEdit()">Guardar</button>
+            <button mat-button id="onSubmit" type="submit" [disabled]="!contactoForm.valid" (click)="confirmAdd()">Guardar</button>
             <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
         </div>
 
