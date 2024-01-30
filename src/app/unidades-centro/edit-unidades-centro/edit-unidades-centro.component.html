@@ -14,36 +14,7 @@
                   <input matInput placeholder="{{ENTIDAD}}" formControlName="unidad_centro" name="unidad_centro" maxlength="100" required>
               </mat-form-field>
           </div>
-    
-          <div class="form">
-            <mat-form-field>
-                <mat-label>Provincia</mat-label>
-                <mat-select formControlName="id_provincia">
-                    <mat-option value="">Sin provincia</mat-option>
-                    <mat-option *ngFor="let idP of provincias" [value]="idP.id_provincia">
-                        {{idP.provincia}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
 
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Teléfono" formControlName="telefono" name="telefono" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Email" formControlName="email" name="email" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Web" formControlName="web" name="web" maxlength="100">
-            </mat-form-field>
-        </div>
 
         <div class="form">
             <mat-form-field color="accent">
@@ -52,9 +23,26 @@
         </div>
 
         <div mat-dialog-actions>
-            <button mat-button id="onSubmit" type="submit" [disabled]="!entidadForm.valid" (click)="confirmEdit()">Guardar</button>
+            <button mat-button id="onSubmit" type="submit" (click)="confirmEdit()">Guardar</button>
             <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
         </div>
 
     </form>
-  </div>
+  </div> -->
+  <mat-sidenav-container class="datos-entidad-container">
+    <mat-sidenav mode="side" opened>
+        <mat-nav-list>
+            <mat-list-item mat-list-item (click)="navega('datos-basicos-entidad')"> Entidad </mat-list-item>
+            <mat-list-item mat-list-item (click)="navega('contactos-entidad')"> Contactos </mat-list-item>
+            <mat-list-item mat-list-item (click)="navega('unidades')"> Ciclos Formativos </mat-list-item>
+        </mat-nav-list>
+        <button mat-button class="save" (click)="save()">Guardar</button>
+        <button mat-button class="onNoClick" (click)="onNoClick()">Cancelar</button>
+    </mat-sidenav>
+    <mat-sidenav-content>
+
+        <router-outlet name="sidebar"></router-outlet>
+
+    </mat-sidenav-content>
+
+</mat-sidenav-container>

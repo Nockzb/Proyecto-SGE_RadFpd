@@ -18,6 +18,7 @@ import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidade
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
 import { AlumnosService } from '../services/alumnos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Alumno } from '../shared/interfaces/alumno';
 
 @Component({
   selector: 'app-unidades-centro',
@@ -52,12 +53,8 @@ export class UnidadesCentrosComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private unidadesCentrosService: UnidadesCentroService,
-    private servicioAlumnos: AlumnosService,
-    
-    
+    private servicioAlumnos: AlumnosService,    
     private overlay: Overlay,
-    private clipboard: Clipboard,
-    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -79,6 +76,13 @@ export class UnidadesCentrosComponent implements OnInit {
       this.dataSource.filterPredicate = this.createFilter();
       this.selection = new SelectionModel<UnidadCentro>(false, [this.unidadCentro]);
       this.onChanges();
+    }
+  }
+
+  async getAlumnado(){
+    const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
+    if (RESPONSE.ok){
+      return RESPONSE.data as Alumno[];
     }
   }
 
