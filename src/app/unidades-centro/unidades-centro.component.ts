@@ -65,7 +65,8 @@ export class UnidadesCentroComponent implements OnInit {
 
   async datosUnidadesCentro(unidadCentro: UnidadCentro) {
     const UNIDADCENTRO = unidadCentro;
-    //const ALUMNADO = await this.getAlumnos();
+    // const ALUMNOS = await this.getAlumnos();
+    // TODO ARREGLAR
 
     if (UNIDADCENTRO) {
       const dialogRef = this.dialog.open(DatosUnidadesCentroComponent, {
@@ -75,24 +76,13 @@ export class UnidadesCentroComponent implements OnInit {
         disableClose: true,
         data: {
           unidadCentro: UNIDADCENTRO,
-          //alumnado: ALUMNADO
+          // alumnos: ALUMNOS
+          // TODO ARREGLAR
         }
       });
 
       const RESULT = await dialogRef.afterClosed().toPromise();
       await this.getUnidadesCentros();
-      /*
-      let var_reunion;
-      var_reunion = this.originalDatasource.filter(reunion => {
-        return reunion.id_reunion === RESULT.reunion.id_reunion;
-      });
-      */
-      //this.ngOnInit();
-      //this.selection = new SelectionModel<PublicacionDHL>(false, [publicacio[0]]);
-      //this.fiterEstados();
-
-      //this.selection = new SelectionModel<Reunion>(false, [publicacio[0]]);
-
     }
   }
 
