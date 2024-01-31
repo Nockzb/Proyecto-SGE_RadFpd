@@ -5,29 +5,30 @@ import { CommonService } from '../shared/common.service';
 import { URL_API } from 'src/environments/environment';
 import { Alumno } from '../shared/interfaces/alumno';
 
-const ENDPOINT = 'contacto';
+const ENDPOINT = 'alumnos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnosService {
 
-  alumno: Alumno[];
+  alumno: Alumno;
+  alumnos: Alumno[];
 
   constructor(private http: HttpClient, private commonService: CommonService) { }
-/*
-  get() {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
-  }
-*/
-  getContactosEntidad(idAlumno: string) {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=${idAlumno}`, { headers: this.commonService.headers });
+  /*
+    get() {
+      return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
+    }
+  */
+  getAlumnosUnidadCentro(id_unidad_centro: number) {
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=${id_unidad_centro}`, { headers: this.commonService.headers });
   }
 
   getAllAlumnos() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
   }
-  
+
   // // Se trae todos los contactos que no están ya en la reunión como asistentes
   // getContactosDisponibles(idReunion: number) {
   //   return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?reunion=${idReunion}`, { headers: this.commonService.headers });

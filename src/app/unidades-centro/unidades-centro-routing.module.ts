@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { UnidadesCentrosComponent } from './unidades-centro.component';
+import { UnidadesCentroComponent } from './unidades-centro.component';
 
-const routes: Routes = [{ path: '', component: UnidadesCentrosComponent }];
+const routes: Routes = [{ path: '', component: UnidadesCentroComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

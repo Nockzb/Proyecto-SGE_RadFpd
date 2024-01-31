@@ -19,12 +19,13 @@ import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-u
 import { AlumnosService } from '../services/alumnos.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Alumno } from '../shared/interfaces/alumno';
+import { DatosUnidadesCentroComponent } from './datos-unidades-centro/datos-unidades-centro.component';
 
 @Component({
   selector: 'app-unidades-centro',
   templateUrl: './unidades-centro.component.html'
 })
-export class UnidadesCentrosComponent implements OnInit {
+export class UnidadesCentroComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -48,12 +49,12 @@ export class UnidadesCentrosComponent implements OnInit {
   unidadCentro: UnidadCentro;
 
   displayedColumns: string[];
-  private filterValues = { id_unidad_centro: '', unidad_centro: '', id_ciclo: '', observaciones: '', id_alumno: ''};
+  private filterValues = { id_unidad_centro: '', unidad_centro: '', id_ciclo: '', observaciones: ''};
 
   constructor(
     public dialog: MatDialog,
     private unidadesCentrosService: UnidadesCentroService,
-    private servicioAlumnos: AlumnosService,    
+    private servicioAlumnos: AlumnosService,
     private overlay: Overlay,
   ) { }
 
@@ -62,15 +63,48 @@ export class UnidadesCentrosComponent implements OnInit {
     //this.unidadesDualService.ENTIDAD = "test";
   }
 
+  async datosUnidadesCentro(unidadCentro: UnidadCentro) {
+    const UNIDADCENTRO = unidadCentro;
+    //const ALUMNADO = await this.getAlumnos();
+
+    if (UNIDADCENTRO) {
+      const dialogRef = this.dialog.open(DatosUnidadesCentroComponent, {
+        width: '70em',
+        maxWidth: '70em',
+        scrollStrategy: this.overlay.scrollStrategies.noop(),
+        disableClose: true,
+        data: {
+          unidadCentro: UNIDADCENTRO,
+          //alumnado: ALUMNADO
+        }
+      });
+
+      const RESULT = await dialogRef.afterClosed().toPromise();
+      await this.getUnidadesCentros();
+      /*
+      let var_reunion;
+      var_reunion = this.originalDatasource.filter(reunion => {
+        return reunion.id_reunion === RESULT.reunion.id_reunion;
+      });
+      */
+      //this.ngOnInit();
+      //this.selection = new SelectionModel<PublicacionDHL>(false, [publicacio[0]]);
+      //this.fiterEstados();
+
+      //this.selection = new SelectionModel<Reunion>(false, [publicacio[0]]);
+
+    }
+  }
+
 
   async getUnidadesCentros() {
     const RESPONSE = await this.unidadesCentrosService.getAllUnidadesCentro().toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
-      this.unidadesCentrosService.unidadCentro = RESPONSE.data as UnidadCentro[];
+      this.unidadesCentrosService.unidadesCentro = RESPONSE.data as UnidadCentro[];
       this.displayedColumns = ['id_unidad_centro', 'unidad_centro', 'id_ciclo', 'observaciones', 'actions'];
-      this.dataSource.data = this.unidadesCentrosService.unidadCentro;
+      this.dataSource.data = this.unidadesCentrosService.unidadesCentro;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
@@ -79,7 +113,7 @@ export class UnidadesCentrosComponent implements OnInit {
     }
   }
 
-  async getAlumnado(){
+  async getAlumnos(){
     const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
     if (RESPONSE.ok){
       return RESPONSE.data as Alumno[];
@@ -160,7 +194,7 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
           this.filterValues.unidad_centro = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
       });
-      
+
       this.idCicloFilter.valueChanges
       .subscribe(value => {
           this.filterValues.unidad_centro = value;
@@ -170,12 +204,6 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
       this.observacionesFilter.valueChanges
       .subscribe(value => {
           this.filterValues.observaciones = value;
-          this.dataSource.filter = JSON.stringify(this.filterValues);
-      });
-
-      this.idAlumnoFilter.valueChanges
-      .subscribe(value => {
-          this.filterValues.id_alumno = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
       });
   }

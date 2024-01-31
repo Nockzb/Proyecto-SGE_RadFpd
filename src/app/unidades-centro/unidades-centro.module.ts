@@ -4,17 +4,19 @@ import { CrudMaterialModule } from '../modules/crud-material/crud-material.modul
 
 import { UnidadesCentroRoutingModule } from './unidades-centro-routing.module';
 
-import { UnidadesCentrosComponent } from './unidades-centro.component';
+import { UnidadesCentroComponent } from './unidades-centro.component';
 import { AddUnidadesCentroComponent } from './add-unidades-centro/add-unidades-centro.component';
 import { EditUnidadesCentroComponent } from './edit-unidades-centro/edit-unidades-centro.component';
 import { DeleteUnidadesCentroComponent } from './delete-unidades-centro/delete-unidades-centro.component';
+import { DatosUnidadesCentroModule } from './datos-unidades-centro/datos-unidades-centro.module';
 
 @NgModule({
-  declarations: [UnidadesCentrosComponent, AddUnidadesCentroComponent, EditUnidadesCentroComponent, DeleteUnidadesCentroComponent],
+  declarations: [UnidadesCentroComponent, AddUnidadesCentroComponent, EditUnidadesCentroComponent, DeleteUnidadesCentroComponent],
   imports: [
     CommonModule,
     UnidadesCentroRoutingModule,
-    CrudMaterialModule
+    CrudMaterialModule,
+    DatosUnidadesCentroModule
   ]
 })
 export class UnidadesCentroModule { }

@@ -5,10 +5,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
-import { Permises } from '../shared/interfaces/api-response';
+import { Permises } from '../../../shared/interfaces/api-response';
 
-import { Alumno } from '../shared/interfaces/alumno';
-import { AlumnosService } from '../services/alumnos.service';
+import { Alumno } from '../../../shared/interfaces/alumno';
+import { AlumnosService } from '../../../services/alumnos.service';
 
 import { AddAlumnoComponent } from './add-alumno/add-alumno.component';
 import { EditAlumnoComponent } from './edit-alumno/edit-alumno.component';
@@ -21,7 +21,7 @@ import { SelectionModel } from '@angular/cdk/collections';
   templateUrl: './alumnos.component.html',
   styleUrls: ['./alumnos.component.scss']
 })
-export class ContactosComponent implements OnInit {
+export class AlumnosComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -59,22 +59,22 @@ export class ContactosComponent implements OnInit {
     //this.onChanges();
   }
 
-  
+
   async getContactos() {
     const RESPONSE = await this.alumnosService.getAllAlumnos().toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
-      this.alumnosService.alumno = RESPONSE.data as Alumno[];
+      this.alumnosService.alumnos = RESPONSE.data as Alumno[];
       this.displayedColumns = ['id_documento', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'nivel_ingles', 'minusvalia', 'otra_formacion', 'id_unidad_centro'];
-      this.dataSource.data = this.alumnosService.alumno;
+      this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
       this.selection = new SelectionModel<Alumno>(false, [this.alumno]);
 
       this.onChanges();
-    }  
+    }
   }
 
   async addAlumno() {
@@ -86,7 +86,7 @@ export class ContactosComponent implements OnInit {
         //this.dataSource.data = this.contactosService.contacto;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async editAlumno(alumno: Alumno) {
@@ -98,7 +98,7 @@ export class ContactosComponent implements OnInit {
         //this.dataSource.data = this.contactosService.contacto;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async deleteAlumno(alumno: Alumno) {
@@ -162,7 +162,7 @@ export class ContactosComponent implements OnInit {
         this.filterValues.fecha_nacimiento = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-    
+
     this.linkedInFilter.valueChanges
     .subscribe(value => {
         this.filterValues.linkedin = value;

@@ -1,43 +1,34 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Contacto } from 'src/app/shared/interfaces/contacto';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-import { CLOSE, ENTIDAD_ALUMNO, ERROR } from '../../shared/messages';
+import { CLOSE, INVALID_FORM, ENTIDAD_ALUMNO } from '../../../../shared/messages';
+import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 import { Alumno } from 'src/app/shared/interfaces/alumno';
-import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 
 @Component({
-  selector: 'app-edit-alumnos',
-  templateUrl: './edit-alumno.component.html',
-  styleUrls: ['./edit-alumno.component.scss']
+  selector: 'app-add-alumno',
+  templateUrl: './add-alumno.component.html',
+  styleUrls: ['./add-alumno.component.scss']
 })
-export class EditAlumnoComponent implements OnInit {
+export class AddAlumnoComponent implements OnInit {
   alumnoForm: FormGroup;
-  unidadesCentro: UnidadCentro[];  
-  // Para autocompletar...
-  //familias: any[]
-  //arrayFiltradoAutocomplete: any[] = [];
-  //filteredOptions: Observable<any[]>;
+  unidadesCentro: UnidadCentro[];
+
   ENTIDAD: String;
 
-  constructor(
-    public dialogRef: MatDialogRef<EditAlumnoComponent>,
+  constructor(public dialogRef: MatDialogRef<AddAlumnoComponent>,
     private snackBar: MatSnackBar,
     private servicioAlumnos: AlumnosService,
-    private servicioUnidadesCentro: UnidadesCentroService,
-    @Inject(MAT_DIALOG_DATA) public alumno: Alumno,
-  ) { }
+    private servicioUnidadesCentro: UnidadesCentroService
+  ){ }
 
   ngOnInit(): void {
-    this.setForm();
-    //this.setFilter();
-  }
-
-  setForm() {
-    this.ENTIDAD = ENTIDAD_ALUMNO;
     this.alumnoForm = new FormGroup({
+      // id_contacto: new FormControl(this.alumno.id_contacto, Validators.required),
       dni: new FormControl(null, Validators.required),
       nombre: new FormControl(null, Validators.required),
       apellidos: new FormControl(null, Validators.required),
@@ -48,22 +39,26 @@ export class EditAlumnoComponent implements OnInit {
       otra_formacion: new FormControl(null),
       id_unidad_centro: new FormControl(null, Validators.required),
     });
+    this.ENTIDAD = ENTIDAD_ALUMNO;
 
     this.getUnidadesCentro();
+
   }
 
-  async confirmEdit(){
-    console.log(this.alumno);
+  async confirmAdd() {
     if (this.alumnoForm.valid) {
-      const aluForm = this.alumnoForm.value;
+      const alumno = this.alumnoForm.value as Alumno;
 
-      const RESPONSE = await this.servicioAlumnos.editAlumno(aluForm).toPromise();
+      const RESPONSE = await this.servicioAlumnos.addAlumno(alumno).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-      } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    console.log(this.alumno);
+        this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
+      } else {
+        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+      }
+    } else {
+      this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
+    }
   }
 
   async getUnidadesCentro(){
@@ -72,8 +67,8 @@ export class EditAlumnoComponent implements OnInit {
       this.unidadesCentro = RESPONSE.data as UnidadCentro[];
     }
   }
- 
+
   onNoClick() {
-    this.dialogRef.close({ ok: false });
+    this.dialogRef.close({ok: false});
   }
 }

@@ -19,10 +19,10 @@ export class DeleteAlumnoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public alumno: Alumno,
     private servicioAlumnos: AlumnosService,
     public snackBar: MatSnackBar,
-  ) 
+  )
   {   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.ENTIDAD = ENTIDAD_ALUMNO;
   }
 
