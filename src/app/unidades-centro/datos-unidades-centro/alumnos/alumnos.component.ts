@@ -66,7 +66,7 @@ export class AlumnosComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['id_alumno', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'id_unidad_centro'];
+      this.displayedColumns = ['id_alumno', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'id_unidad_centro', 'actions'];
       console.log(this.alumnosService.alumnos)
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
