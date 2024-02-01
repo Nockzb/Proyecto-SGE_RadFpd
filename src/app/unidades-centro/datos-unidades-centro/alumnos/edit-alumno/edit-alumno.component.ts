@@ -4,9 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 import { CLOSE, ENTIDAD_ALUMNO, ERROR } from 'src/app/shared/messages';
-import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
+
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 @Component({
   selector: 'app-edit-alumnos',
@@ -14,12 +15,9 @@ import { UnidadesCentroService } from 'src/app/services/unidades-centro.service'
   styleUrls: ['./edit-alumno.component.scss']
 })
 export class EditAlumnoComponent implements OnInit {
-  alumnoForm: FormGroup;
+  public alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
-  // Para autocompletar...
-  //familias: any[]
-  //arrayFiltradoAutocomplete: any[] = [];
-  //filteredOptions: Observable<any[]>;
+  alumno: Alumno;
   ENTIDAD: String;
 
   constructor(
@@ -27,8 +25,10 @@ export class EditAlumnoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private servicioAlumnos: AlumnosService,
     private servicioUnidadesCentro: UnidadesCentroService,
-    @Inject(MAT_DIALOG_DATA) public alumno: Alumno,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) public data: Alumno,
+  ) {
+    this.alumno = { ...data };
+  }
 
   ngOnInit(): void {
     this.setForm();
@@ -38,21 +38,22 @@ export class EditAlumnoComponent implements OnInit {
   setForm() {
     this.ENTIDAD = ENTIDAD_ALUMNO;
     this.alumnoForm = new FormGroup({
-      dni: new FormControl(null, Validators.required),
-      nombre: new FormControl(null, Validators.required),
-      apellidos: new FormControl(null, Validators.required),
-      fecha_nac: new FormControl(null, Validators.required),
+      id_alumno: new FormControl(this.alumno.id_alumno),
+      dni: new FormControl(this.alumno.dni),
+      nombre: new FormControl(this.alumno.nombre, Validators.required),
+      apellidos: new FormControl(this.alumno.apellidos),
+      fecha_nac: new FormControl(this.alumno.fecha_nacimiento),
       linkedin: new FormControl(null),
-      nivel_ingles: new FormControl(null),
-      minusvalia: new FormControl(null),
-      otra_formacion: new FormControl(null),
-      id_unidad_centro: new FormControl(null, Validators.required),
+      nivel_ingles: new FormControl(this.alumno.nivel_ingles),
+      minusvalia: new FormControl(this.alumno.minusvalia),
+      otra_formacion: new FormControl(this.alumno.otra_formacion),
+      id_unidad_centro: new FormControl(this.alumno.id_unidad_centro),
     });
 
     this.getUnidadesCentro();
   }
 
-  async confirmEdit(){
+  async confirmEdit() {
     console.log(this.alumno);
     if (this.alumnoForm.valid) {
       const aluForm = this.alumnoForm.value;
@@ -66,9 +67,9 @@ export class EditAlumnoComponent implements OnInit {
     console.log(this.alumno);
   }
 
-  async getUnidadesCentro(){
+  async getUnidadesCentro() {
     const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();
-    if (RESPONSE.ok){
+    if (RESPONSE.ok) {
       this.unidadesCentro = RESPONSE.data as UnidadCentro[];
     }
   }

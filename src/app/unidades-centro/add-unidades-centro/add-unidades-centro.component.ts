@@ -5,10 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CLOSE, INVALID_FORM, ENTIDAD_UNIDAD } from 'src/app/shared/messages';
 import { Ciclo } from 'src/app/shared/interfaces/ciclo';
 import { CiclosService } from 'src/app/services/ciclos.service';
-import { UnidadDual } from 'src/app/shared/interfaces/unidad-dual';
-import { UnidadesDualService } from 'src/app/services/unidades-dual.service';
-import { MotivoNodual } from 'src/app/shared/interfaces/motivo-nodual';
-import { MotivosNodualService } from 'src/app/services/motivos-nodual.service';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
@@ -20,12 +16,9 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 export class AddUnidadesCentroComponent implements OnInit {
   unidadForm: FormGroup;
-  ciclos: Ciclo[];
-  unidades_dual: UnidadDual[];
-  motivos_nodual: MotivoNodual[];
+  ciclos: Ciclo[];  
 
-  ENTIDAD: String;
-  esDual = true;
+  ENTIDAD: String;  
 
   constructor(public dialogRef: MatDialogRef<AddUnidadesCentroComponent>,
     private snackBar: MatSnackBar,

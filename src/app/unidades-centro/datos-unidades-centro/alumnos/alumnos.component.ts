@@ -29,15 +29,11 @@ export class AlumnosComponent implements OnInit {
 
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
-  idAlumnoFilter = new FormControl();
-  // dniFilter = new FormControl();
+  idAlumnoFilter = new FormControl();  
   nombreFilter = new FormControl();
   apellidosFilter = new FormControl();
   fecha_nacFilter = new FormControl();
-  linkedInFilter = new FormControl();
-  // nivel_inglesFilter = new FormControl();
-  // minusvaliaFilter = new FormControl();
-  // otra_formacionFilter = new FormControl();
+  linkedInFilter = new FormControl();  
   id_unidad_centroFilter = new FormControl();
 
   permises: Permises;
@@ -117,8 +113,7 @@ export class AlumnosComponent implements OnInit {
         && alumno.apellidos.toLowerCase().indexOf(searchTerms.apellidos.toLowerCase()) !== -1
         && alumno.fecha_nacimiento.toLowerCase().indexOf(searchTerms.fecha_nacimiento.toLowerCase()) !== -1
         && alumno.linkedin.toLowerCase().indexOf(searchTerms.linkedin.toLowerCase()) !== -1        
-        && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro.toLowerCase()) !== -1;
-      
+        && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro.toLowerCase()) !== -1;      
     };
 
     return filterFunction;

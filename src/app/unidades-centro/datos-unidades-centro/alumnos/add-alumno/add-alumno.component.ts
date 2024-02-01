@@ -15,6 +15,7 @@ import { Alumno } from 'src/app/shared/interfaces/alumno';
   styleUrls: ['./add-alumno.component.scss']
 })
 export class AddAlumnoComponent implements OnInit {
+  nivelIngles = ["A1", "A2", "B1", "B2", "C1", "C2"]
   alumnoForm: FormGroup;
   unidadesCentro: UnidadCentro[];
 
@@ -26,16 +27,29 @@ export class AddAlumnoComponent implements OnInit {
     private servicioUnidadesCentro: UnidadesCentroService
   ){ }
 
+  // ngOnInit() {
+  //   this.alumnoForm = new FormGroup({
+  //     id_alumno: new FormControl(null, Validators.required),
+  //     nombre: new FormControl(null, Validators.required),
+  //     apellidos: new FormControl(null, Validators.required),
+  //     fecha_nac: new FormControl(null),
+  //     linkedin: new FormControl(null),
+  //     nivel_ingles: new FormControl(null, Validators.required),
+  //     minusvalia: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
+  //     otra_formacion: new FormControl(null),
+  //     id_unidad_centro: new FormControl(49)
+  //   });
+  // }
   ngOnInit(): void {
     this.alumnoForm = new FormGroup({
-      // id_contacto: new FormControl(this.alumno.id_contacto, Validators.required),
+      // id_alumno: new FormControl(0),
       dni: new FormControl(null, Validators.required),
       nombre: new FormControl(null, Validators.required),
       apellidos: new FormControl(null, Validators.required),
-      fecha_nac: new FormControl(null, Validators.required),
+      fecha_nac: new FormControl(null),
       linkedin: new FormControl(null),
       nivel_ingles: new FormControl(null),
-      minusvalia: new FormControl(null),
+      minusvalia: new FormControl(0, [Validators.min(0), Validators.max(100)]),
       otra_formacion: new FormControl(null),
       id_unidad_centro: new FormControl(null, Validators.required),
     });
@@ -66,6 +80,18 @@ export class AddAlumnoComponent implements OnInit {
     if (RESPONSE.ok){
       this.unidadesCentro = RESPONSE.data as UnidadCentro[];
     }
+  }
+
+  decrementar() {
+    const valorActual = this.alumnoForm.get('minusvalia').value;
+    const nuevoValor = Math.max(valorActual - 5, 0);
+    this.alumnoForm.get('minusvalia').setValue(nuevoValor);
+  }
+
+  incrementar() {
+    const valorActual = this.alumnoForm.get('minusvalia').value;
+    const nuevoValor = Math.min(valorActual + 5, 100);
+    this.alumnoForm.get('minusvalia').setValue(nuevoValor);
   }
 
   onNoClick() {
