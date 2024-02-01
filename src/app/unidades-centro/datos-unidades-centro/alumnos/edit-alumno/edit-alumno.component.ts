@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-import { CLOSE, ENTIDAD_ALUMNO, ERROR } from '../../shared/messages';
+import { CLOSE, ENTIDAD_ALUMNO, ERROR } from 'src/app/shared/messages';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';

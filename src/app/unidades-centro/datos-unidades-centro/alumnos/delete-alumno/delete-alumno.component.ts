@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CLOSE, ENTIDAD_ALUMNO } from '../../shared/messages';
+import { CLOSE, ENTIDAD_ALUMNO } from 'src/app/shared/messages';
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { AlumnosService } from 'src/app/services/alumnos.service';
 

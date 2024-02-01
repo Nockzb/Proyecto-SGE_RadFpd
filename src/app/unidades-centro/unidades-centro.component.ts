@@ -65,7 +65,7 @@ export class UnidadesCentroComponent implements OnInit {
 
   async datosUnidadesCentro(unidadCentro: UnidadCentro) {
     const UNIDADCENTRO = unidadCentro;
-    // const ALUMNOS = await this.getAlumnos();
+    //const ALUMNOS = await this.getAlumnos();
     // TODO ARREGLAR
 
     if (UNIDADCENTRO) {
@@ -74,11 +74,7 @@ export class UnidadesCentroComponent implements OnInit {
         maxWidth: '70em',
         scrollStrategy: this.overlay.scrollStrategies.noop(),
         disableClose: true,
-        data: {
-          unidadCentro: UNIDADCENTRO,
-          // alumnos: ALUMNOS
-          // TODO ARREGLAR
-        }
+        data: UNIDADCENTRO
       });
 
       const RESULT = await dialogRef.afterClosed().toPromise();
@@ -104,10 +100,12 @@ export class UnidadesCentroComponent implements OnInit {
   }
 
   async getAlumnos(){
+    /*
     const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
     if (RESPONSE.ok){
       return RESPONSE.data as Alumno[];
     }
+    */
   }
 
   async addUnidadCentro() {

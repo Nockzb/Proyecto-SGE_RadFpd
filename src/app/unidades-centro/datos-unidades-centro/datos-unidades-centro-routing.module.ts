@@ -14,11 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./datos-basicos-unidades-centro/datos-basicos-unidades-centro.module').then(m => m.DatosBasicosUnidadesCentroModule),
     outlet: 'sidebar'
   },
-  // {
-  //   path: 'alumnos',
-  //   loadChildren: () => import('./alumnos/alumnos.module').then(m => m.AlumnosModule),
-  //   outlet: 'sidebar'
-  // }
+  {
+     path: 'alumnos',
+     loadChildren: () => import('./alumnos/alumnos.module').then(m => m.AlumnosModule),
+     outlet: 'sidebar'
+  }
   ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

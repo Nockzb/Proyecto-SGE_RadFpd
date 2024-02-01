@@ -5,8 +5,8 @@ import { AlumnosComponent } from './alumnos.component';
 
 const routes: Routes = [{ path: '', component: AlumnosComponent },
   {
-    path: 'add-contacto',
-    loadChildren: () => import('./alumnos/add-alumno/add-alumno.module').then(m => m.AddAlumnoModule)
+    path: 'add-alumno',
+    loadChildren: () => import('./add-alumno/add-alumno.module').then(m => m.AddAlumnoModule)
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [{ path: '', component: AlumnosComponent },
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ContactosRoutingModule { }
+export class AlumnosRoutingModule { }

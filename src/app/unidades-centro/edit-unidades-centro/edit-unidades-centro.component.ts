@@ -23,9 +23,6 @@ export class EditUnidadesCentroComponent implements OnInit {
   unidadesCentroForm: FormGroup;
   ciclos: Ciclo[];
   unidadesCentro: UnidadCentro[];
-  // provincias: Provincia[];
-  // zonas: Zona[];
-  // tipos_entidad: TipoEntidad[];
   alumnos: Alumno[];
   ENTIDAD: String;
 
@@ -50,7 +47,7 @@ export class EditUnidadesCentroComponent implements OnInit {
     });
 
     this.getCiclos();
-    // this.getAlumnos();
+    this.getAlumnos();
   }
 
   async confirmEdit(){
@@ -76,88 +73,16 @@ export class EditUnidadesCentroComponent implements OnInit {
     }
   }
 
-  // async getAlumnos(){
-  //   const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
-  //   if (RESPONSE.ok){
-  //     this.alumnos = RESPONSE.data as Alumno[];
-  //   }
-  // }
+  async getAlumnos(){
+    /*
+    const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
+    if (RESPONSE.ok){
+      this.alumnos = RESPONSE.data as Alumno[];
+    }
+    */
+  }
 
   onNoClick() {
     this.dialogRef.close({ ok: false });
   }
 }
-
-
-
-//   rutaSeleccionada: string;
-//   unidadesCentroForm: FormGroup;
-//   ciclos: Ciclo[];
-//   alumnos: Alumno[];
-//   ENTIDAD: String;
-
-//   constructor(
-//     private router: Router,
-//     public dialogRef: MatDialogRef<EditUnidadesCentroComponent>,
-//     private snackBar: MatSnackBar,
-//     private servicioUnidadesCentro: UnidadesCentroService,
-//     private servicioCiclos: CiclosService,
-//     @Inject(MAT_DIALOG_DATA) public unidadesCentro: UnidadCentro,
-//     private servicioAlumnos: AlumnosService
-//   ) { }
-
-//   ngOnInit(): void {
-//     this.ENTIDAD=ENTIDAD_UNIDAD_CENTRO;
-//     this.unidadesCentroForm = new FormGroup({
-//       id_unidad_centro: new FormControl(this.unidadesCentro.id_unidad_centro, Validators.required),
-//       unidad_centro: new FormControl(this.unidadesCentro.unidad_centro, Validators.required),
-//       id_ciclo: new FormControl(this.unidadesCentro.id_ciclo, Validators.required),
-//       observaciones: new FormControl(this.unidadesCentro.observaciones)
-//     });
-
-//     this.getCiclos();
-//     this.getAlumnos();
-//   }
-
-//   async confirmEdit(){
-//     if (this.unidadesCentroForm.valid) {
-//       const uniCenForm = this.unidadesCentroForm.value;
-
-//       const RESPONSE = await this.servicioUnidadesCentro.editUnidadCentro(uniCenForm).toPromise();
-//       if (RESPONSE.ok) {
-//         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-//         this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-//       } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-//     } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-//   }
-
-//   navega(ruta: string) {
-//     this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: ruta } }]);
-//   }
-
-//   async getCiclos(){
-//     const RESPONSE = await this.servicioCiclos.getAllCiclos().toPromise();
-//     if (RESPONSE.ok){
-//       this.ciclos = RESPONSE.data as Ciclo[];
-//     }
-//   }
-
-//   async getAlumnos(){
-//     const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
-//     if (RESPONSE.ok){
-//       this.alumnos = RESPONSE.data as Alumno[];
-//     }
-//   }
-
-
-  // async getDinamizadores(){
-  //   const RESPONSE = await this.servicioAlumnos.getAllDinamizadores().toPromise();
-  //   if (RESPONSE.ok){
-  //     this.alumnos = RESPONSE.data as Contacto[];
-  //   }
-  // }
-
-//   onNoClick() {
-//     this.dialogRef.close({ ok: false });
-//   }
-// }

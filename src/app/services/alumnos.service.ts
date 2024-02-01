@@ -22,11 +22,11 @@ export class AlumnosService {
     }
   */
   getAlumnosUnidadCentro(id_unidad_centro: number) {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=${id_unidad_centro}`, { headers: this.commonService.headers });
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${id_unidad_centro}`, { headers: this.commonService.headers });
   }
 
-  getAllAlumnos() {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
+  getAlumnos(idCentro: string) {
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${idCentro}`, { headers: this.commonService.headers });
   }
 
   // // Se trae todos los contactos que no están ya en la reunión como asistentes

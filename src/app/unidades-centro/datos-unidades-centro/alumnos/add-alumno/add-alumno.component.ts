@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contacto } from 'src/app/shared/interfaces/contacto';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-import { CLOSE, INVALID_FORM, ENTIDAD_ALUMNO } from '../../../../shared/messages';
+import { CLOSE, INVALID_FORM, ENTIDAD_ALUMNO } from 'src/app/shared/messages';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 import { Alumno } from 'src/app/shared/interfaces/alumno';

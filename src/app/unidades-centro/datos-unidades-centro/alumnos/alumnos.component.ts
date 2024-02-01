@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { Overlay } from '@angular/cdk/overlay';
 import { FormControl } from '@angular/forms';
 import { Permises } from '../../../shared/interfaces/api-response';
@@ -15,6 +15,7 @@ import { EditAlumnoComponent } from './edit-alumno/edit-alumno.component';
 import { DeleteAlumnoComponent } from './delete-alumno/delete-alumno.component';
 
 import { SelectionModel } from '@angular/cdk/collections';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 @Component({
   selector: 'app-alumnos',
@@ -29,14 +30,14 @@ export class AlumnosComponent implements OnInit {
   dataSource: MatTableDataSource<Alumno> = new MatTableDataSource();
 
   idAlumnoFilter = new FormControl();
-  dniFilter = new FormControl();
+  // dniFilter = new FormControl();
   nombreFilter = new FormControl();
   apellidosFilter = new FormControl();
   fecha_nacFilter = new FormControl();
   linkedInFilter = new FormControl();
-  nivel_inglesFilter = new FormControl();
-  minusvaliaFilter = new FormControl();
-  otra_formacionFilter = new FormControl();
+  // nivel_inglesFilter = new FormControl();
+  // minusvaliaFilter = new FormControl();
+  // otra_formacionFilter = new FormControl();
   id_unidad_centroFilter = new FormControl();
 
   permises: Permises;
@@ -45,28 +46,28 @@ export class AlumnosComponent implements OnInit {
   alumno: Alumno;
 
   displayedColumns: string[];
-  private filterValues = { id_alumno: '', dni: '', nombre: '', apellidos: '', fecha_nacimiento: '', linkedin: '', nivel_ingles: '', minusvalia: '', otra_formacion: '', id_unidad_centro: ''};
-
+  private filterValues = { id_alumno: '', nombre: '', apellidos: '', fecha_nacimiento: '', linkedin: '', id_unidad_centro: ''};  
+  
   constructor(
     public dialog: MatDialog,
     private alumnosService: AlumnosService,
-    private overlay: Overlay
+    private overlay: Overlay,
+    @Inject(MAT_DIALOG_DATA) public unidadCentro: UnidadCentro,
   ) { }
 
   ngOnInit(): void {
-    this.getContactos();
-    //this.createFilter();
-    //this.onChanges();
+    this.getAlumnos( this.unidadCentro.id_unidad_centro );
   }
 
 
-  async getContactos() {
-    const RESPONSE = await this.alumnosService.getAllAlumnos().toPromise();
+  async getAlumnos(idCentro: number) {
+    const RESPONSE = await this.alumnosService.getAlumnosUnidadCentro(idCentro).toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['id_documento', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'nivel_ingles', 'minusvalia', 'otra_formacion', 'id_unidad_centro'];
+      this.displayedColumns = ['id_alumno', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'id_unidad_centro'];
+      console.log(this.alumnosService.alumnos)
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -82,8 +83,6 @@ export class AlumnosComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.contactosService.contacto.push(RESULT.data);
-        //this.dataSource.data = this.contactosService.contacto;
         this.ngOnInit();
       }
     }
@@ -94,8 +93,6 @@ export class AlumnosComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.contactosService.editContacto(RESULT.data);
-        //this.dataSource.data = this.contactosService.contacto;
         this.ngOnInit();
       }
     }
@@ -106,8 +103,6 @@ export class AlumnosComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.contactosService.deleteContacto(RESULT.data);
-        //this.dataSource.data = this.contactosService.contacto;
         this.ngOnInit();
       }
     }
@@ -117,17 +112,13 @@ export class AlumnosComponent implements OnInit {
     const filterFunction = (alumno: Alumno, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
 
-      return alumno.id_alumno.toString().indexOf(searchTerms.id_alumno) !== -1
-        && alumno.dni.toLowerCase().indexOf(searchTerms.dni.toLowerCase()) !== -1
+      return alumno.id_alumno.toString().indexOf(searchTerms.id_alumno) !== -1        
         && alumno.nombre.toLowerCase().indexOf(searchTerms.nombre.toLowerCase()) !== -1
         && alumno.apellidos.toLowerCase().indexOf(searchTerms.apellidos.toLowerCase()) !== -1
         && alumno.fecha_nacimiento.toLowerCase().indexOf(searchTerms.fecha_nacimiento.toLowerCase()) !== -1
-        && alumno.linkedin.toLowerCase().indexOf(searchTerms.linkedin.toLowerCase()) !== -1
-        && alumno.nivel_ingles.toLowerCase().indexOf(searchTerms.nivel_ingles.toLowerCase()) !== -1
-        && alumno.minusvalia.toString().indexOf(searchTerms.minusvalia.toLowerCase()) !== -1
-        && alumno.otra_formacion.toLowerCase().indexOf(searchTerms.otra_formacion.toLowerCase()) !== -1
+        && alumno.linkedin.toLowerCase().indexOf(searchTerms.linkedin.toLowerCase()) !== -1        
         && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro.toLowerCase()) !== -1;
-        // TODO Arreglar esto
+      
     };
 
     return filterFunction;
@@ -136,12 +127,6 @@ export class AlumnosComponent implements OnInit {
   onChanges() {
      this.idAlumnoFilter.valueChanges.subscribe(value => {
         this.filterValues.id_alumno = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.dniFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.dni = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
@@ -166,24 +151,6 @@ export class AlumnosComponent implements OnInit {
     this.linkedInFilter.valueChanges
     .subscribe(value => {
         this.filterValues.linkedin = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.nivel_inglesFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.nivel_ingles = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.minusvaliaFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.minusvalia = value;
-        this.dataSource.filter = JSON.stringify(this.filterValues);
-    });
-
-    this.otra_formacionFilter.valueChanges
-    .subscribe(value => {
-        this.filterValues.otra_formacion = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 

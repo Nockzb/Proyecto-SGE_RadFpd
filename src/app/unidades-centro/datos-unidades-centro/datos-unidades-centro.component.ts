@@ -6,6 +6,7 @@ import { ActivationStart, Router, RouterOutlet } from '@angular/router';
 import { UnidadesCentroService } from '../../services/unidades-centro.service';
 import { DatosEditarUnidadesCentro } from '../../shared/interfaces/datos-editar-unidades-centro';
 import { CLOSE } from '../../shared/messages';
+import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
 
   constructor(
             private router: Router,
-            @Inject(MAT_DIALOG_DATA) public datosEditarUnidadCentro: DatosEditarUnidadesCentro,
+            @Inject(MAT_DIALOG_DATA) public datosEditarUnidadCentro: UnidadCentro,
             private unidadCentroService: UnidadesCentroService,
             private snackBar: MatSnackBar,
             public dialogRef: MatDialogRef<DatosUnidadesCentroComponent>,
@@ -39,7 +40,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
         this.outlet.deactivate();
       }
     });
-    this.unidadCentroService.setUnidadCentro(this.datosEditarUnidadCentro.unidadCentro);
+    this.unidadCentroService.setUnidadCentro(this.datosEditarUnidadCentro);
   }
 
   navega(ruta: string) {
@@ -50,7 +51,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
       const RESPONSE = await this.unidadCentroService.editUnidadCentro(this.unidadCentroService.unidadCentro).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarUnidadCentro.unidadCentro});
+        this.dialogRef.close({ok: RESPONSE.ok, entidad: this.datosEditarUnidadCentro});
         //this.entidadService.entidades = (await this.entidadService.getAllEntidades().toPromise()).data;
       } else {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
@@ -58,6 +59,6 @@ export class DatosUnidadesCentroComponent implements OnInit {
     }
 
   onNoClick() {
-    this.dialogRef.close({entidad: this.datosEditarUnidadCentro.unidadCentro});
+    this.dialogRef.close({entidad: this.datosEditarUnidadCentro});
   }
 }

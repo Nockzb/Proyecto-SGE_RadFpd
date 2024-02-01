@@ -25,7 +25,7 @@ export class DatosBasicosUnidadesCentroComponent implements OnInit {
     public unidadCentroService: UnidadesCentroService,
     private servicioCiclos: CiclosService
   ) {
-    this.alumnos = this.datosUnidadCentro.datosEditarUnidadCentro.alumnos;
+//    this.alumnos = this.datosUnidadCentro.datosEditarUnidadCentro.alumnos;
   }
 
   ngOnInit(): void {
