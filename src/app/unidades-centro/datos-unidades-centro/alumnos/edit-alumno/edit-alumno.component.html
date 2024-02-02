@@ -1,11 +1,16 @@
-<!-- <div class="container">
+<div class="container">
     <h3 mat-dialog-title>Editar {{ENTIDAD}}</h3>
-
-    <form class="mat-dialog-content" [formGroup]="contactoForm">
+  
+    <form class="mat-dialog-content" [formGroup]="alumnoForm">
+        <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="DNI" formControlName="dni" name="DNI" maxlength="100" required>
+            </mat-form-field>
+        </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" maxlength="100">
+                <input matInput placeholder="Nombre" formControlName="nombre" name="Nombre" maxlength="100" required>
             </mat-form-field>
         </div>
 
@@ -17,127 +22,43 @@
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Email" formControlName="email" name="email" maxlength="100" required>
-                <small *ngIf="email.errors?.email" class="text-danger">Introduzca una dirección de correo electrónico válida</small>
+                <input matInput placeholder="Fecha de nacimiento" formControlName="fecha_nac" name="Fecha nacimiento" maxlength="100">
             </mat-form-field>
         </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Corporativo Largo" formControlName="corporativo_largo" name="corporativo_largo" maxlength="100">
+                <input matInput placeholder="Linkedin" formControlName="linkedin" name="linkedin" maxlength="100">
             </mat-form-field>
         </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Corporativo Corto" formControlName="corporativo_corto" name="corporativo_corto" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Telefono Personal" formControlName="telefono_personal" name="telefono_personal" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field>
-                <mat-label>Zona</mat-label>
-                <mat-select formControlName="id_zona">
-                    <mat-option value="">Sin zona</mat-option>
-                    <mat-option *ngFor="let idZ of zonas" [value]="idZ.id_zona">
-                        {{idZ.zona}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field>
-                <mat-label>Entidad</mat-label>
-                <mat-select formControlName="id_entidad" required>
-                    <mat-option value="">Sin entidad</mat-option>
-                    <mat-option *ngFor="let idE of entidades" [value]="idE.id_entidad">
-                        {{idE.entidad}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Cargo" formControlName="cargo" name="cargo" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field>
-                <mat-label>Familia Profesional</mat-label>
-                <mat-select formControlName="id_familia">
-                    <mat-option value="">Sin familia profesional</mat-option>
-                    <mat-option *ngFor="let idF of familias" [value]="idF.id_familia">
-                        {{idF.familia}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-         <div class="form">
-            <mat-form-field>
-                <input type="text" id="id_familia" placeholder="Familia Profesional" aria-label="Number"
-                matInput formControlName="id_familia" [matAutocomplete]="autocomplete">
-
-                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearAutor()">
-                    <mat-icon>close</mat-icon>
-                </button>
-                <mat-autocomplete [displayWith]="valueMapper" #autocomplete="matAutocomplete">
-                    <mat-option *ngFor="let familia of filteredOptions | async" [value]="familia.id_familia">
-                        {{familia.familia}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </div> 
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Dirección" formControlName="direccion" name="direccion" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="CP" formControlName="cp" name="cp" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Localidad" formControlName="localidad" name="localidad" maxlength="100">
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field>
-                <mat-label>Provincia</mat-label>
-                <mat-select formControlName="id_provincia">
-                    <mat-option value="">Sin provincia</mat-option>
-                    <mat-option *ngFor="let idP of provincias" [value]="idP.id_provincia">
-                        {{idP.provincia}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-
-        <div class="form">
-            <mat-form-field color="accent">
-                <textarea matInput placeholder="Observaciones" formControlName="observaciones" name="Observaciones"></textarea>
-            </mat-form-field>
-        </div>
-
-        <div mat-dialog-actions>
-            <button mat-button id="onSubmit" type="submit" [disabled]="!contactoForm.valid" (click)="confirmEdit()">Guardar</button>
-            <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
-        </div>
-
+  
+      <!-- <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="Nivel de Inglés"
+            formControlName="nivel_ingles" maxlength="100" required>
+        </mat-form-field>
+      </div>
+  
+      <div class="form" class="minus">
+        <label for="slider">Minusvalía: {{
+          alumnoForm.get('minusvalia').value }} %</label>
+        <input type="range" class="form-range" id="slider"
+          formControlName="minusvalia" min="0" max="100" step="1">
+      </div>
+  
+      <div class="form">
+        <mat-form-field>
+          <input matInput placeholder="Otra Formación"
+            formControlName="otra_formacion" maxlength="100">
+        </mat-form-field>
+      </div>
+   -->
+      <div mat-dialog-actions>
+        <button mat-button id="onSubmit" type="submit"
+          [disabled]="!alumnoForm.valid" (click)="confirmEdit()">Guardar</button>
+        <button mat-button id="onNoClick" (click)="onNoClick()"
+          tabindex="-1">Cancelar</button>
+      </div>
+  
     </form>
-</div> -->
+  </div>
