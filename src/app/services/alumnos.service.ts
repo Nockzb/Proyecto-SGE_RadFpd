@@ -49,7 +49,7 @@ export class AlumnosService {
     return this.http.put<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
   }
 
-  deleteAlumno(id: number|string) {
-    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id}`, {headers: this.commonService.headers });
+  deleteAlumno(id: number) {
+    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_alumno=${id}`, {headers: this.commonService.headers });
   }
 }

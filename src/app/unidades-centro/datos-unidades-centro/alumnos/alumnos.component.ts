@@ -60,14 +60,14 @@ export class AlumnosComponent implements OnInit {
   }
 
 
-  async getAlumnos(idCentro: number) {
-    const RESPONSE = await this.alumnosService.getAlumnosUnidadCentro(idCentro).toPromise();
+  async getAlumnos(id_unidad_centro: number) {
+    const RESPONSE = await this.alumnosService.getAlumnosUnidadCentro(id_unidad_centro).toPromise();
     this.permises = RESPONSE.permises;
 
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
       this.displayedColumns = ['id_alumno', 'nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'id_unidad_centro', 'actions'];
-      console.log(this.alumnosService.alumnos)
+      // console.log(this.alumnosService.alumnos)
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -79,34 +79,53 @@ export class AlumnosComponent implements OnInit {
   }
 
   async addAlumno() {
-    const dialogRef = this.dialog.open(AddAlumnoComponent, { scrollStrategy: this.overlay.scrollStrategies.noop(), disableClose: true });
+    const dialogRef = this.dialog.open(AddAlumnoComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        this.ngOnInit();
+        this.alumnosService.alumnos.push(RESULT.data);
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
+        // this.ngOnInit();
       }
     }
   }
 
   async editAlumno(alumno: Alumno) {
-    const dialogRef = this.dialog.open(EditAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop(), disableClose: true });
+    const dialogRef = this.dialog.open(EditAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        this.ngOnInit();
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
+        //this.ngOnInit();
       }
     }
   }
 
+
   async deleteAlumno(alumno: Alumno) {
     const dialogRef = this.dialog.open(DeleteAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop() });
-    const RESULT = await dialogRef.afterClosed().toPromise();
-    if (RESULT) {
-      if (RESULT.ok) {
-        this.ngOnInit();
+    const result = await dialogRef.afterClosed().toPromise();
+
+    if (result) {
+      if (result.ok) {
+        this.dataSource.data = this.alumnosService.alumnos;
+        this.getAlumnos(this.unidadCentro.id_unidad_centro);
       }
     }
   }
+  // async deleteAlumno(alumno: Alumno) {
+  //   const dialogRef = this.dialog.open(DeleteAlumnoComponent, { data: alumno, scrollStrategy: this.overlay.scrollStrategies.noop() });
+  //   const RESULT = await dialogRef.afterClosed().toPromise();
+  //   if (RESULT) {
+  //     if (RESULT.ok) {
+  //       this.dataSource.data = this.alumnosService.alumnos;
+  //       this.getAlumnos(this.unidadCentro.id_unidad_centro);
+  //       //this.ngOnInit();
+  //     }
+  //   }
+  // }
 
   createFilter(): (alumno: Alumno, filter: string) => boolean {
     const filterFunction = (alumno: Alumno, filter: string): boolean => {
