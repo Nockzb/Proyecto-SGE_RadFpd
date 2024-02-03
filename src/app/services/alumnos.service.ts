@@ -29,16 +29,6 @@ export class AlumnosService {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${idCentro}`, { headers: this.commonService.headers });
   }
 
-  // // Se trae todos los contactos que no están ya en la reunión como asistentes
-  // getContactosDisponibles(idReunion: number) {
-  //   return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?reunion=${idReunion}`, { headers: this.commonService.headers });
-  // }
-
-  // // Marcada la Entidad de la DG a fuego como entidad=1
-  // getAllDinamizadores() {
-  //   return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?entidad=1`, { headers: this.commonService.headers });
-  // }
-
   addAlumno(alumno: Alumno) {
     const body = JSON.stringify(alumno);
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
