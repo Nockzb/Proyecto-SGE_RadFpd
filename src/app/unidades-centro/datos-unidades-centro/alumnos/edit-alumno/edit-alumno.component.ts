@@ -10,7 +10,7 @@ import { UnidadesCentroService } from 'src/app/services/unidades-centro.service'
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 
 @Component({
-  selector: 'app-edit-alumnos',
+  selector: 'app-edit-alumno',
   templateUrl: './edit-alumno.component.html',
   styleUrls: ['./edit-alumno.component.scss']
 })
@@ -19,6 +19,7 @@ export class EditAlumnoComponent implements OnInit {
   unidadesCentro: UnidadCentro[];
   alumno: Alumno;
   ENTIDAD: String;
+  nivelIngles = ["A1", "A2", "B1", "B2", "C1", "C2"]
 
   constructor(
     public dialogRef: MatDialogRef<EditAlumnoComponent>,
@@ -31,7 +32,7 @@ export class EditAlumnoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setForm();
+    this.setForm();    
     //this.setFilter();
   }
 
@@ -39,10 +40,10 @@ export class EditAlumnoComponent implements OnInit {
     this.ENTIDAD = ENTIDAD_ALUMNO;
     this.alumnoForm = new FormGroup({
       id_alumno: new FormControl(this.alumno.id_alumno),
-      dni: new FormControl(this.alumno.dni),
+      dni: new FormControl(this.alumno.dni, Validators.required),
       nombre: new FormControl(this.alumno.nombre, Validators.required),
-      apellidos: new FormControl(this.alumno.apellidos),
-      fecha_nac: new FormControl(this.alumno.fecha_nacimiento),
+      apellidos: new FormControl(this.alumno.apellidos, Validators.required),
+      fecha_nac: new FormControl(this.alumno.fecha_nacimiento, Validators.required),
       linkedin: new FormControl(null),
       nivel_ingles: new FormControl(this.alumno.nivel_ingles),
       minusvalia: new FormControl(this.alumno.minusvalia),
@@ -53,8 +54,7 @@ export class EditAlumnoComponent implements OnInit {
     this.getUnidadesCentro();
   }
 
-  async confirmEdit() {
-    console.log(this.alumno);
+  async confirmEdit() {    
     if (this.alumnoForm.valid) {
       const aluForm = this.alumnoForm.value;
 
@@ -63,8 +63,7 @@ export class EditAlumnoComponent implements OnInit {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
         this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
       } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    console.log(this.alumno);
+    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }    
   }
 
   async getUnidadesCentro() {
@@ -72,6 +71,18 @@ export class EditAlumnoComponent implements OnInit {
     if (RESPONSE.ok) {
       this.unidadesCentro = RESPONSE.data as UnidadCentro[];
     }
+  }
+
+  decrementar() {
+    const valorActual = this.alumnoForm.get('minusvalia').value;
+    const nuevoValor = Math.max(valorActual - 5, 0);
+    this.alumnoForm.get('minusvalia').setValue(nuevoValor);
+  }
+
+  incrementar() {
+    const valorActual = this.alumnoForm.get('minusvalia').value;
+    const nuevoValor = Math.min(valorActual + 5, 100);
+    this.alumnoForm.get('minusvalia').setValue(nuevoValor);
   }
 
   onNoClick() {
