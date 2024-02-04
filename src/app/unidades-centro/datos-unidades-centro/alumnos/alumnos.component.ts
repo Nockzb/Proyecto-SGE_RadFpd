@@ -33,8 +33,6 @@ export class AlumnosComponent implements OnInit {
   apellidosFilter = new FormControl();
   edadFilter = new FormControl();
   linkedInFilter = new FormControl();  
-  // idAlumnoFilter = new FormControl();  
-  // id_unidad_centroFilter = new FormControl();
 
   permises: Permises;
   selection: SelectionModel<Alumno>;

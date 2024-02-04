@@ -28,15 +28,6 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         
-          
-
-        <!-- <div class="form">
-            <mat-form-field color="accent">
-                <input matInput placeholder="Fecha de nacimiento" formControlName="fecha_nacimiento" name="fecha_nacimiento"
-                    maxlength="100">
-            </mat-form-field>
-        </div> -->
-
         <div class="form">
             <mat-form-field color="accent">
                 <input matInput placeholder="LinkedIn"
@@ -88,18 +79,6 @@
                 <input matInput placeholder="ID Unidad Centro" formControlName="id_unidad_centro" name="id_unidad_centro" maxlength="100" readonly>
             </mat-form-field>
         </div>
-
-        <!-- <div class="form">
-            <mat-form-field>
-                <mat-label>ID Unidad Centro</mat-label>
-                <mat-select formControlName="id_unidad_centro">
-                    <mat-option value="">Elija una opción</mat-option>
-                    <mat-option *ngFor="let idC of unidadesCentro" [value]="idC.id_unidad_centro">
-                        {{idC.unidad_centro }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div> -->
 
         <div mat-dialog-actions>
             <button mat-button id="onSubmit" type="submit" [disabled]="!alumnoForm.valid"

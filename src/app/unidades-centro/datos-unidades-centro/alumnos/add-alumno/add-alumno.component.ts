@@ -80,35 +80,6 @@ export class AddAlumnoComponent implements OnInit {
     }
   }
   
-
-//   async confirmAdd() {
-//     if (this.alumnoForm.valid) {
-//         const alumno = this.alumnoForm.value as Alumno;
-//         // Verifica si la fecha_nacimiento es un string y, si es así, conviértelo a un objeto Date
-//         if (typeof alumno.fecha_nacimiento === 'string') {
-//           alumno.fecha_nacimiento = new Date(alumno.fecha_nacimiento);
-//         }
-
-//         // Formatea la fecha al formato 'yyyy-MM-dd'
-//         alumno.fecha_nacimiento = new Date(this.datePipe.transform(alumno.fecha_nacimiento, 'yyyy-MM-dd'));
-//         const RESPONSE = await this.servicioAlumnos.addAlumno(alumno).toPromise();
-//         if (RESPONSE.ok) {
-//             this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-//             this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
-//         } else {
-//             if (RESPONSE.message === "LinkedInvalid") {
-//                 // Muestra un Snackbar específico para el error de LinkedIn
-//                 this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-//             } else {
-//                 // Muestra un Snackbar genérico para otros errores
-//                 this.snackBar.open("Ocurrió un fallo", CLOSE, { duration: 5000 });
-//             }
-//         }
-//     } else {
-//         this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
-//     }
-// }
-
   async getUnidadesCentro(){
     const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();
     if (RESPONSE.ok){
