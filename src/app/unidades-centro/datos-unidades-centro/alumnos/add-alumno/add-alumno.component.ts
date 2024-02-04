@@ -7,6 +7,7 @@ import { CLOSE, INVALID_FORM, ENTIDAD_ALUMNO } from 'src/app/shared/messages';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 import { Alumno } from 'src/app/shared/interfaces/alumno';
+import { LinkedinValidator } from 'src/app/shared/validators/linkedinValidator';
 
 @Component({
   selector: 'app-add-alumno',
@@ -25,23 +26,8 @@ export class AddAlumnoComponent implements OnInit {
     private servicioAlumnos: AlumnosService,
     private servicioUnidadesCentro: UnidadesCentroService,
     @Inject(MAT_DIALOG_DATA) public id_unidad_centro: number
-  ){ 
+  ){ }
 
-  }
-
-  // ngOnInit() {
-  //   this.alumnoForm = new FormGroup({
-  //     id_alumno: new FormControl(null, Validators.required),
-  //     nombre: new FormControl(null, Validators.required),
-  //     apellidos: new FormControl(null, Validators.required),
-  //     fecha_nac: new FormControl(null),
-  //     linkedin: new FormControl(null),
-  //     nivel_ingles: new FormControl(null, Validators.required),
-  //     minusvalia: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(100)]),
-  //     otra_formacion: new FormControl(null),
-  //     id_unidad_centro: new FormControl(49)
-  //   });
-  // }
   ngOnInit(): void {    
     this.alumnoForm = new FormGroup({
       id_alumno: new FormControl(0),
@@ -49,7 +35,7 @@ export class AddAlumnoComponent implements OnInit {
       nombre: new FormControl(null, Validators.required),
       apellidos: new FormControl(null, Validators.required),
       fecha_nacimiento: new FormControl(null),
-      linkedin: new FormControl(null),
+      linkedin: new FormControl(null, [Validators.required, LinkedinValidator()]),
       nivel_ingles: new FormControl(null),
       minusvalia: new FormControl(0, [Validators.min(0), Validators.max(100)]),
       otra_formacion: new FormControl(null),
@@ -63,19 +49,41 @@ export class AddAlumnoComponent implements OnInit {
 
   async confirmAdd() {
     if (this.alumnoForm.valid) {
-      const alumno = this.alumnoForm.value as Alumno;
+        const alumno = this.alumnoForm.value as Alumno;
 
-      const RESPONSE = await this.servicioAlumnos.addAlumno(alumno).toPromise();
-      if (RESPONSE.ok) {
-        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-        this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
-      } else {
-        this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
-      }
+        const RESPONSE = await this.servicioAlumnos.addAlumno(alumno).toPromise();
+        if (RESPONSE.ok) {
+            this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+            this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
+        } else {
+            if (RESPONSE.message === "LinkedInvalid") {
+                // Muestra un Snackbar específico para el error de LinkedIn
+                this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+            } else {
+                // Muestra un Snackbar genérico para otros errores
+                this.snackBar.open("Ocurrió un fallo", CLOSE, { duration: 5000 });
+            }
+        }
     } else {
-      this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
+        this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
     }
-  }
+}
+
+  // async confirmAdd() {
+  //   if (this.alumnoForm.valid) {
+  //     const alumno = this.alumnoForm.value as Alumno;
+
+  //     const RESPONSE = await this.servicioAlumnos.addAlumno(alumno).toPromise();
+  //     if (RESPONSE.ok) {
+  //       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+  //       this.dialogRef.close({ok: RESPONSE.ok, data: RESPONSE.data});
+  //     } else {
+  //       this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+  //     }
+  //   } else {
+  //     this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
+  //   }
+  // }
 
   async getUnidadesCentro(){
     const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();

@@ -44,7 +44,7 @@ export class DatosUnidadesCentroComponent implements OnInit {
   }
 
   navega(ruta: string) {
-    this.router.navigate([`/${ this.rutaSeleccionada }`, { outlets: { sidebar: ruta } }]);
+    this.router.navigate([`${ this.rutaSeleccionada }`, { outlets: { sidebar: ruta } }]);
   }
 
   async save() {

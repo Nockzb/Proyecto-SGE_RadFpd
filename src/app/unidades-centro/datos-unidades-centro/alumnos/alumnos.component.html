@@ -17,13 +17,13 @@
                 <td mat-cell *matCellDef="let alumno"> {{alumno?.apellidos}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="fecha_nacimiento">
+            <ng-container matColumnDef="edad">
                 <th mat-header-cell *matHeaderCellDef>
-                    <input matInput [formControl]="fecha_nacFilter" placeholder="Fecha de Nacimiento">
-                    <span mat-sort-header></span>
+                  <input matInput [formControl]="edadFilter" placeholder="Edad" required>
+                  <span mat-sort-header></span>
                 </th>
-                <td mat-cell *matCellDef="let alumnos"> {{alumnos?.fecha_nacimiento}}</td>
-            </ng-container>
+                <td mat-cell *matCellDef="let alumno"> {{ alumno?.fecha_nacimiento | edadAlumno }} años </td>
+              </ng-container>
 
             <ng-container matColumnDef="linkedin">
                 <th mat-header-cell *matHeaderCellDef>

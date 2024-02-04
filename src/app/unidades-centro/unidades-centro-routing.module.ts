@@ -3,7 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { UnidadesCentroComponent } from './unidades-centro.component';
 
-const routes: Routes = [{ path: '', component: UnidadesCentroComponent }];
+const routes: Routes = [
+  { 
+    path: '', 
+    component: UnidadesCentroComponent 
+  },
+  // { 
+  //   path: 'unidades-centro/', 
+  //   component: UnidadesCentroComponent 
+  // }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

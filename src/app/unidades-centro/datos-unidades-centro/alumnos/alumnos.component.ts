@@ -31,7 +31,7 @@ export class AlumnosComponent implements OnInit {
 
   nombreFilter = new FormControl();
   apellidosFilter = new FormControl();
-  fecha_nacFilter = new FormControl();
+  edadFilter = new FormControl();
   linkedInFilter = new FormControl();  
   // idAlumnoFilter = new FormControl();  
   // id_unidad_centroFilter = new FormControl();
@@ -41,7 +41,7 @@ export class AlumnosComponent implements OnInit {
   alumno: Alumno;
 
   displayedColumns: string[];
-  private filterValues = {nombre: '', apellidos: '', fecha_nacimiento: '', linkedin: ''};  
+  private filterValues = {nombre: '', apellidos: '', edad: '', linkedin: ''};  
   
   constructor(
     public dialog: MatDialog,
@@ -61,7 +61,7 @@ export class AlumnosComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.alumnosService.alumnos = RESPONSE.data as Alumno[];
-      this.displayedColumns = ['nombre', 'apellidos', 'fecha_nacimiento', 'linkedin', 'actions'];      
+      this.displayedColumns = ['nombre', 'apellidos', 'edad', 'linkedin', 'actions'];      
       this.dataSource.data = this.alumnosService.alumnos;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -113,23 +113,17 @@ export class AlumnosComponent implements OnInit {
       const searchTerms = JSON.parse(filter);
 
       return alumno.nombre.toLowerCase().indexOf(searchTerms.nombre.toLowerCase()) !== -1
-             && alumno.apellidos.toLowerCase().indexOf(searchTerms.apellidos.toLowerCase()) !== -1
-        //alumno.id_alumno.toString().indexOf(searchTerms.id_alumno) !== -1        
-        // && alumno.nombre.toLowerCase().indexOf(searchTerms.nombre.toLowerCase()) !== -1
-        // && alumno.fecha_nacimiento.toLowerCase().indexOf(searchTerms.fecha_nacimiento.toLowerCase()) !== -1
-        // && alumno.linkedin.toLowerCase().indexOf(searchTerms.linkedin.toLowerCase()) !== -1        
-        // && alumno.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro.toLowerCase()) !== -1;      
+             && alumno.apellidos.toLowerCase().indexOf(searchTerms.apellidos.toLowerCase()) !== -1   
     };
 
     return filterFunction;
   }
 
-  onChanges() {
-    //  this.idAlumnoFilter.valueChanges.subscribe(value => {
-    //     this.filterValues.id_alumno = value;
-    //     this.dataSource.filter = JSON.stringify(this.filterValues);
-    // });
+  public linkedin(url: string): void {
+    window.open(url)
+  }
 
+  onChanges() {
     this.nombreFilter.valueChanges
     .subscribe(value => {
         this.filterValues.nombre = value;
@@ -142,9 +136,9 @@ export class AlumnosComponent implements OnInit {
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
-    this.fecha_nacFilter.valueChanges
+    this.edadFilter.valueChanges
     .subscribe(value => {
-        this.filterValues.fecha_nacimiento = value;
+        this.filterValues.edad = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
 
@@ -153,11 +147,5 @@ export class AlumnosComponent implements OnInit {
         this.filterValues.linkedin = value;
         this.dataSource.filter = JSON.stringify(this.filterValues);
     });
-
-    // this.id_unidad_centroFilter.valueChanges
-    // .subscribe(value => {
-    //     this.filterValues.id_unidad_centro = value;
-    //     this.dataSource.filter = JSON.stringify(this.filterValues);
-    // });
   }
 }

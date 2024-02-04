@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlumnosService } from 'src/app/services/alumnos.service';
-import { CLOSE, ENTIDAD_ALUMNO, ERROR } from 'src/app/shared/messages';
+import { CLOSE, ENTIDAD_ALUMNO, ERROR, INVALID_FORM } from 'src/app/shared/messages';
 
 import { Alumno } from 'src/app/shared/interfaces/alumno';
 import { UnidadesCentroService } from 'src/app/services/unidades-centro.service';
@@ -32,7 +32,7 @@ export class EditAlumnoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setForm();    
+    this.setForm();
     //this.setFilter();
   }
 
@@ -43,7 +43,7 @@ export class EditAlumnoComponent implements OnInit {
       dni: new FormControl(this.alumno.dni, Validators.required),
       nombre: new FormControl(this.alumno.nombre, Validators.required),
       apellidos: new FormControl(this.alumno.apellidos, Validators.required),
-      fecha_nac: new FormControl(this.alumno.fecha_nacimiento, Validators.required),
+      fecha_nacimiento: new FormControl(this.alumno.fecha_nacimiento, Validators.required),
       linkedin: new FormControl(null),
       nivel_ingles: new FormControl(this.alumno.nivel_ingles),
       minusvalia: new FormControl(this.alumno.minusvalia),
@@ -54,17 +54,27 @@ export class EditAlumnoComponent implements OnInit {
     this.getUnidadesCentro();
   }
 
-  async confirmEdit() {    
+  async confirmEdit() {
     if (this.alumnoForm.valid) {
       const aluForm = this.alumnoForm.value;
-
+  
       const RESPONSE = await this.servicioAlumnos.editAlumno(aluForm).toPromise();
       if (RESPONSE.ok) {
         this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
         this.dialogRef.close({ ok: RESPONSE.ok, data: RESPONSE.data });
-      } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }
-    } else { this.snackBar.open(ERROR, CLOSE, { duration: 5000 }); }    
-  }
+      } else {
+        if (RESPONSE.message === "URL Linked Invalida") {
+          // Muestra un Snackbar específico para el error de LinkedIn
+          this.snackBar.open(RESPONSE.message, CLOSE, { duration: 5000 });
+        } else {
+          // Muestra un Snackbar genérico para otros errores
+          this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
+        }
+      }
+    } else {
+      this.snackBar.open(ERROR, CLOSE, { duration: 5000 });
+    }    
+  } 
 
   async getUnidadesCentro() {
     const RESPONSE = await this.servicioUnidadesCentro.getAllUnidadesCentro().toPromise();
