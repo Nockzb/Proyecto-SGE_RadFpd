@@ -3,7 +3,7 @@ export interface Alumno {
     dni: string;    
     nombre: string;
     apellidos: string;
-    fecha_nacimiento: Date;
+    fecha_nacimiento: string;
     linkedin: string;
     nivel_ingles: string;
     minusvalia: number;

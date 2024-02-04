@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { CrudMaterialModule } from '../../../modules/crud-material/crud-material.module';
 
@@ -9,6 +9,7 @@ import { DatosBasicosUnidadesCentroRoutingModule } from './datos-basicos-unidade
 
 @NgModule({
   declarations: [DatosBasicosUnidadesCentroComponent],
+  providers: [DatePipe],
   imports: [
     CommonModule,
     DatosBasicosUnidadesCentroRoutingModule,

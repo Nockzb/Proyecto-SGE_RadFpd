@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AlumnosRoutingModule } from './alumnos-routing.module';
 import { CrudMaterialModule } from 'src/app/modules/crud-material/crud-material.module';
 import { AlumnosComponent } from './alumnos.component';
@@ -11,6 +11,7 @@ import { LinkedinPipe } from 'src/app/shared/pipes/linkedinUrl.pipe';
 
 @NgModule({
   declarations: [AlumnosComponent, AddAlumnoComponent, DeleteAlumnoComponent, EditAlumnoComponent, EdadAlumnoPipe, LinkedinPipe],
+  providers: [DatePipe],
   imports: [
     CommonModule,
     AlumnosRoutingModule,
