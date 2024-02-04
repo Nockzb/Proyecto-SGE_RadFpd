@@ -25,7 +25,9 @@ export class AddAlumnoComponent implements OnInit {
     private servicioAlumnos: AlumnosService,
     private servicioUnidadesCentro: UnidadesCentroService,
     @Inject(MAT_DIALOG_DATA) public id_unidad_centro: number
-  ){ }
+  ){ 
+
+  }
 
   // ngOnInit() {
   //   this.alumnoForm = new FormGroup({
@@ -40,13 +42,13 @@ export class AddAlumnoComponent implements OnInit {
   //     id_unidad_centro: new FormControl(49)
   //   });
   // }
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.alumnoForm = new FormGroup({
-      // id_alumno: new FormControl(0),
+      id_alumno: new FormControl(0),
       dni: new FormControl(null, Validators.required),
       nombre: new FormControl(null, Validators.required),
       apellidos: new FormControl(null, Validators.required),
-      fecha_nac: new FormControl(null),
+      fecha_nacimiento: new FormControl(null),
       linkedin: new FormControl(null),
       nivel_ingles: new FormControl(null),
       minusvalia: new FormControl(0, [Validators.min(0), Validators.max(100)]),

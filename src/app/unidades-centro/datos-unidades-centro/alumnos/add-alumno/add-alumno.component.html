@@ -1,29 +1,30 @@
-
 <div class="container">
     <h3 mat-dialog-title>Agregar nuevo {{ENTIDAD}}</h3>
 
     <form class="mat-dialog-content" [formGroup]="alumnoForm">
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="DNI" formControlName="dni" name="DNI" maxlength="100" required>
+                <input matInput placeholder="DNI" formControlName="dni" name="dni" maxlength="100" required>
             </mat-form-field>
         </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Nombre" formControlName="nombre" name="Nombre" maxlength="100" required>
+                <input matInput placeholder="Nombre" formControlName="nombre" name="nombre" maxlength="100" required>
             </mat-form-field>
         </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Apellidos" formControlName="apellidos" name="apellidos" maxlength="100" required>
+                <input matInput placeholder="Apellidos" formControlName="apellidos" name="apellidos" maxlength="100"
+                    required>
             </mat-form-field>
         </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Fecha de nacimiento" formControlName="fecha_nac" name="Fecha nacimiento" maxlength="100">
+                <input matInput placeholder="Fecha de nacimiento" formControlName="fecha_nacimiento" name="fecha_nacimiento"
+                    maxlength="100">
             </mat-form-field>
         </div>
 
@@ -34,36 +35,44 @@
         </div>
 
         <div class="form">
-          <mat-form-field>
-              <mat-label>Nivel de Inglés</mat-label>
-              <mat-select formControlName="nivel_ingles">
-                  <mat-option value="">Elija una opción</mat-option>
-                  <mat-option *ngFor="let nivel of nivelIngles" [value]="nivel">
-                    {{ nivel }}
-                  </mat-option>                  
-              </mat-select>
-          </mat-form-field>
-      </div>
+            <mat-form-field>
+                <mat-label>Nivel de Inglés</mat-label>
+                <mat-select formControlName="nivel_ingles">
+                    <mat-option value="">Elija una opción</mat-option>
+                    <mat-option *ngFor="let nivel of nivelIngles" [value]="nivel">
+                        {{ nivel }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-      <div class="form" id="minusvalia">
-        <button mat-button (click)="decrementar()" color="primary">
-            <mat-icon>remove</mat-icon>
-        </button>
-        <mat-form-field color="accent" id="minusvaliaFormField">
-          <input matInput placeholder="Minusvalia" formControlName="minusvalia" name="minusvalia" maxlength="100" readonly>
-        </mat-form-field>
-        <button mat-button (click)="incrementar()" color="primary">
-            <mat-icon>add</mat-icon>            
-        </button>
-      </div>
+        <div class="form" id="minusvalia">
+            <button mat-button (click)="decrementar()" color="primary">
+                <mat-icon>remove</mat-icon>
+            </button>
+            <mat-form-field color="accent" id="minusvaliaFormField">
+                <input matInput placeholder="Minusvalia" formControlName="minusvalia" name="minusvalia" maxlength="100"
+                    readonly>
+            </mat-form-field>
+            <button mat-button (click)="incrementar()" color="primary">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
 
         <div class="form">
             <mat-form-field color="accent">
-                <input matInput placeholder="Otra formacion" formControlName="otra_formacion" name="otra_formacion" maxlength="100">
+                <input matInput placeholder="Otra formacion" formControlName="otra_formacion" name="otra_formacion"
+                    maxlength="100">
             </mat-form-field>
         </div>
 
         <div class="form">
+            <mat-form-field color="accent">
+                <input matInput placeholder="ID Unidad Centro" formControlName="id_unidad_centro" name="id_unidad_centro" maxlength="100" readonly>
+            </mat-form-field>
+        </div>
+
+        <!-- <div class="form">
             <mat-form-field>
                 <mat-label>ID Unidad Centro</mat-label>
                 <mat-select formControlName="id_unidad_centro">
@@ -73,10 +82,11 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </div> -->
 
         <div mat-dialog-actions>
-            <button mat-button id="onSubmit" type="submit" [disabled]="!alumnoForm.valid" (click)="confirmAdd()">Guardar</button>
+            <button mat-button id="onSubmit" type="submit" [disabled]="!alumnoForm.valid"
+                (click)="confirmAdd()">Guardar</button>
             <button mat-button id="onNoClick" (click)="onNoClick()" tabindex="-1">Cancelar</button>
         </div>
 
