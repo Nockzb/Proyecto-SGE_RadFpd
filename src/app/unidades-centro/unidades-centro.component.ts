@@ -53,28 +53,24 @@ export class UnidadesCentroComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
-    private unidadesCentrosService: UnidadesCentroService,
-    private servicioAlumnos: AlumnosService,
+    private unidadesCentrosService: UnidadesCentroService,    
     private overlay: Overlay,
   ) { }
 
   ngOnInit(): void {
     this.getUnidadesCentros();
-    //this.unidadesDualService.ENTIDAD = "test";
   }
 
   async datosUnidadesCentro(unidadCentro: UnidadCentro) {
-    const UNIDADCENTRO = unidadCentro;
-    //const ALUMNOS = await this.getAlumnos();
-    // TODO ARREGLAR
+    const UNIDAD_CENTRO = unidadCentro;
 
-    if (UNIDADCENTRO) {
+    if (UNIDAD_CENTRO) {
       const dialogRef = this.dialog.open(DatosUnidadesCentroComponent, {
         width: '70em',
         maxWidth: '70em',
         scrollStrategy: this.overlay.scrollStrategies.noop(),
         disableClose: true,
-        data: UNIDADCENTRO
+        data: UNIDAD_CENTRO
       });
 
       const RESULT = await dialogRef.afterClosed().toPromise();
@@ -99,22 +95,11 @@ export class UnidadesCentroComponent implements OnInit {
     }
   }
 
-  async getAlumnos(){
-    /*
-    const RESPONSE = await this.servicioAlumnos.getAllAlumnos().toPromise();
-    if (RESPONSE.ok){
-      return RESPONSE.data as Alumno[];
-    }
-    */
-  }
-
   async addUnidadCentro() {
     const dialogRef = this.dialog.open(AddUnidadesCentroComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.unidadesDualService.unidadDual.push(RESULT.data);
-        //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
       }
     }
@@ -125,8 +110,6 @@ export class UnidadesCentroComponent implements OnInit {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.unidadesDualService.editUnidadDual(RESULT.data);
-        //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
       }
     }
@@ -136,8 +119,6 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
     const RESULT = await dialogRef.afterClosed().toPromise();
     if (RESULT) {
       if (RESULT.ok) {
-        //this.unidadesDualService.deleteUnidadDual(RESULT.data);
-        //this.dataSource.data = this.unidadesDualService.unidadDual;
         this.ngOnInit();
       }
     }
@@ -155,17 +136,21 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
   createFilter(): (unidadCentro: UnidadCentro, filter: string) => boolean {
     const filterFunction = (unidadCentro: UnidadCentro, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
-      if(unidadCentro.observaciones!=null){
-        return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
+      return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
           && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
-          && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
-      }else{
-        unidadCentro.observaciones=""
-        return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
-        && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
-        && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1
-      }
-    };
+          && (unidadCentro.observaciones || '').toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
+  };
+    //   if(unidadCentro.observaciones!=null){
+    //     return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
+    //       && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
+    //       && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
+    //   }else{
+    //     unidadCentro.observaciones=""
+    //     return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
+    //     && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
+    //     && unidadCentro.observaciones.toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1
+    //   }
+    // };
 
     return filterFunction;
   }

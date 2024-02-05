@@ -7,11 +7,7 @@ const routes: Routes = [
   { 
     path: '', 
     component: UnidadesCentroComponent 
-  },
-  // { 
-  //   path: 'unidades-centro/', 
-  //   component: UnidadesCentroComponent 
-  // }
+  }
 ];
 
 @NgModule({

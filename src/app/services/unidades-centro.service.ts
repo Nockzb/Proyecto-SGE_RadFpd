@@ -31,6 +31,7 @@ export class UnidadesCentroService {
     this.unidadCentro.observaciones = formUnidadCentro.observaciones;
   }
 
+  // Obtener todas las unidades centro
   get() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
   }
@@ -39,22 +40,25 @@ export class UnidadesCentroService {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
   }
 
-  getAlumnos(idUnidadesCentros: string[]) {
-    const ROUTE = 'obtener_alumnos';
-    const ID_UNIDADES_CENTROS = JSON.stringify(idUnidadesCentros);
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${ID_UNIDADES_CENTROS}&route=${ROUTE}`, { headers: this.commonService.headers });
-  }
+  // getAlumnos(idUnidadesCentros: string[]) {
+  //   const ROUTE = 'obtener_alumnos';
+  //   const ID_UNIDADES_CENTROS = JSON.stringify(idUnidadesCentros);
+  //   return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${ID_UNIDADES_CENTROS}&route=${ROUTE}`, { headers: this.commonService.headers });
+  // }
 
+  // Añadir una nueva unidad centro
   addUnidadCentro(unidadCentro: UnidadCentro) {
     const body = JSON.stringify(unidadCentro);
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
   }
 
+  // Editar una unidad centro 
   editUnidadCentro(unidadCentro: UnidadCentro) {
     const body = JSON.stringify(unidadCentro);
     return this.http.put<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
   }
 
+  // Eliminar una unidad centro por ID
   deleteUnidadCentro(id: number|string) {
     return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id}`, {headers: this.commonService.headers });
   }
