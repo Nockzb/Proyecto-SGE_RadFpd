@@ -6,12 +6,8 @@ import { DatosUnidadesCentroComponent } from './datos-unidades-centro.component'
 const routes: Routes = [
   {
     path: '',
+    component: DatosUnidadesCentroComponent,
     redirectTo: 'datos-unidades-centro',
-    pathMatch: 'full'
-  },
-  {
-    path: 'datos-unidades-centro',
-    component: DatosUnidadesCentroComponent
   },
   {
     path: 'datos-basicos-unidades-centro',

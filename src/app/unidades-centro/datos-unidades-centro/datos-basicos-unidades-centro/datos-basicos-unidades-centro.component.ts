@@ -21,7 +21,7 @@ export class DatosBasicosUnidadesCentroComponent implements OnInit {
   ENTIDAD: String;
 
   constructor(
-    private datosUnidadCentro: DatosUnidadesCentroComponent,
+    // private datosUnidadCentro: DatosUnidadesCentroComponent,
     public unidadCentroService: UnidadesCentroService,
     private servicioCiclos: CiclosService
   ) {
