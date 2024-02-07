@@ -35,6 +35,6 @@ export class VacanteService {
   }
 
   deleteVacante(id_vacante: number|string) {
-    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id=${id_vacante}`, {headers: this.commonService.headers });
+    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_vacante=${id_vacante}`, {headers: this.commonService.headers });
   }
 }

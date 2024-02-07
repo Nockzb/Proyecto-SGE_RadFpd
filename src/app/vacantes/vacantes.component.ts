@@ -9,6 +9,7 @@ import { Vacante } from '../shared/interfaces/vacante';
 import { Permises } from '../shared/interfaces/api-response';
 import { VacanteService } from '../services/vacantes.service';
 import { AddVacanteComponent } from './add-vacante/add-vacante.component';
+import { DeleteVacanteComponent } from './delete-vacante/delete-vacante.component';
 
 @Component({
   selector: 'app-vacantes',
@@ -83,15 +84,15 @@ export class VacantesComponent implements OnInit {
   }
 
   async deleteVacante(vacante: Vacante) {
-  //   const dialogRef = this.dialog.open(DeleteNivelComponent, { data: nivel, scrollStrategy: this.overlay.scrollStrategies.noop() });
-  //   const RESULT = await dialogRef.afterClosed().toPromise();
-  //   if (RESULT) {
-  //     if (RESULT.ok) {
-  //       //this.nivelesService.deleteNivel(RESULT.data);
-  //       //this.dataSource.data = this.nivelesService.nivel;
-  //       this.ngOnInit();
-  //     }
-  //   }
+    const dialogRef = this.dialog.open(DeleteVacanteComponent, { data: vacante, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        this.vacanteService.deleteVacante(RESULT.data);
+        this.dataSource.data = this.vacanteService.vacante;
+        this.ngOnInit();
+      }
+    }
   }
 
   createFilter(): (vacante: Vacante, filter: string) => boolean {
