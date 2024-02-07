@@ -100,10 +100,10 @@ export class VacantesComponent implements OnInit {
     const filterFunction = (vacante: Vacante, filter: string): boolean => {
       const searchTerms = JSON.parse(filter);
 
-      return vacante.id_vacante.toString().indexOf(searchTerms.id_nivel) !== -1
-        && vacante.entidad.toLowerCase().indexOf(searchTerms.vacante.toLowerCase()) !== -1
-        && vacante.unidad.toLowerCase().indexOf(searchTerms.cod_nivel.toLowerCase()) !== -1
-        && vacante.num_alumnos.toString().indexOf(searchTerms.titulo.toLowerCase()) !== -1;
+      return vacante.id_vacante.toString().indexOf(searchTerms.id_vacante) !== -1
+        && vacante.entidad.toLowerCase().indexOf(searchTerms.entidad.toLowerCase()) !== -1
+        && vacante.unidad.toLowerCase().indexOf(searchTerms.unidad.toLowerCase()) !== -1
+        && vacante.num_alumnos.toString().indexOf(searchTerms.num_alumnos.toLowerCase()) !== -1;
     };
 
     return filterFunction;

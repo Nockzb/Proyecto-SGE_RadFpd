@@ -9,6 +9,8 @@ import { EntidadesService } from 'src/app/services/entidades.service';
 import { Entidad } from 'src/app/shared/interfaces/entidad';
 import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
 import { Vacante } from 'src/app/shared/interfaces/vacante';
+import { Alumno } from 'src/app/shared/interfaces/alumno';
+import { AlumnosService } from 'src/app/services/alumnos.service';
 
 @Component({
   selector: 'app-edit-vacante',
@@ -19,11 +21,13 @@ export class EditVacanteComponent implements OnInit {
   vacanteForm: FormGroup;
   entidades: Entidad[];
   unidades: UnidadCentro[];
+  alumnadoUnidadElegida: Alumno[];
 
   constructor(public dialogRef: MatDialogRef<EditVacanteComponent>,              
     private servicioVacante: VacanteService,
     private servicioEntidades: EntidadesService,
     private servicioUnidadesCentro: UnidadesCentroService,
+    private servicioAlumnos: AlumnosService,
     public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public vacante: Vacante
 ) { }
@@ -38,6 +42,13 @@ export class EditVacanteComponent implements OnInit {
 
     this.getEntidades();
     this.getUnidadesCentro();
+  }
+
+  async getAlumnos() {
+    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentroByNombre(this.vacante.unidad).toPromise();
+    if (RESPONSE.ok) {
+      this.entidades = RESPONSE.data as Entidad[];
+    }
   }
 
   async getEntidades() {

@@ -38,6 +38,10 @@ export class AlumnosService {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${id_unidad_centro}`, { headers: this.commonService.headers });
   }
 
+  getAlumnosUnidadCentroByNombre(unidad_centro: string) {
+    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?unidad_centro=${unidad_centro}`, { headers: this.commonService.headers });
+  }
+
   addAlumno(alumno: Alumno) {
     const body = JSON.stringify(alumno);
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, body, { headers: this.commonService.headers });
@@ -49,6 +53,6 @@ export class AlumnosService {
   }
 
   deleteAlumno(id: number) {
-    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_alumno=${id}`, {headers: this.commonService.headers });
+    return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_alumno=${id}`, { headers: this.commonService.headers });
   }
 }
