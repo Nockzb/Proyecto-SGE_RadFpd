@@ -17,11 +17,13 @@ import { AlumnosService } from 'src/app/services/alumnos.service';
   templateUrl: './edit-vacante.component.html',
   styleUrls: ['./edit-vacante.component.scss']
 })
+
 export class EditVacanteComponent implements OnInit {
   vacanteForm: FormGroup;
   entidades: Entidad[];
   unidades: UnidadCentro[];
   alumnadoUnidadElegida: Alumno[];
+  alumnosSeleccionados: Alumno[];
 
   constructor(public dialogRef: MatDialogRef<EditVacanteComponent>,              
     private servicioVacante: VacanteService,
@@ -30,24 +32,30 @@ export class EditVacanteComponent implements OnInit {
     private servicioAlumnos: AlumnosService,
     public snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public vacante: Vacante
-) { }
+  ) { 
+    this.alumnadoUnidadElegida = [];
+    this.alumnosSeleccionados = [];
+  }
 
   ngOnInit(): void {
     this.vacanteForm = new FormGroup({
       id_vacante: new FormControl(this.vacante.id_vacante),
       entidad: new FormControl(this.vacante.entidad, Validators.required),
       unidad: new FormControl(this.vacante.unidad, Validators.required),
-      num_alumnos: new FormControl(this.vacante.num_alumnos, Validators.required),     
+      num_alumnos: new FormControl(this.vacante.num_alumnos, Validators.required),
+      alumnadoUnidad: new FormControl(this.alumnadoUnidadElegida),
+      alumnosSeleccionados: new FormControl(this.alumnosSeleccionados)     
     });
 
     this.getEntidades();
     this.getUnidadesCentro();
+    this.getAlumnosUnidadElegida();
   }
 
-  async getAlumnos() {
-    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentroByNombre(this.vacante.unidad).toPromise();
+  async getAlumnosUnidadElegida() {
+    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentro(34).toPromise();
     if (RESPONSE.ok) {
-      this.entidades = RESPONSE.data as Entidad[];
+      this.alumnadoUnidadElegida = RESPONSE.data as Alumno[];
     }
   }
 
@@ -79,6 +87,30 @@ export class EditVacanteComponent implements OnInit {
     } else {
       this.snackBar.open(INVALID_FORM, CLOSE, { duration: 5000 });
     }
+  }
+
+  async seleccionarAlumno(alumno: Alumno) {
+    // Se agrega el alumno a la lista de seleccionados
+    //if (!this.alumnosSeleccionados.includes(alumno)) {
+      this.alumnosSeleccionados.push(alumno);
+    //}
+    // Se  elimina el alumno de la lista de la unidad
+    const index = this.alumnadoUnidadElegida.indexOf(alumno);
+    if (index !== -1) {
+      this.alumnadoUnidadElegida.splice(index, 1);
+    } 
+  }
+
+  async quitarAlumno(alumno: Alumno) {
+    // Se quita el alumno de la lista de seleccionados
+    const index = this.alumnosSeleccionados.indexOf(alumno);
+    if (index !== -1) {
+      this.alumnosSeleccionados.splice(index, 1);
+    } 
+    // Se devuelve a lista de la unidad
+    //if (!this.alumnadoUnidadElegida.includes(alumno)) {
+      this.alumnadoUnidadElegida.push(alumno);
+    //}
   }
 
   onNoClick(): void {

@@ -1,5 +1,5 @@
 <div class="container">
-    <h3 mat-dialog-title>Editar usuario</h3>
+    <h3 mat-dialog-title>Editar vacante</h3>
 
     <form class="mat-dialog-content" [formGroup]="vacanteForm">
         <div class="form">
@@ -29,6 +29,35 @@
                 <input matInput type="text" placeholder="Número de alumnos" formControlName="num_alumnos" name="num_alumnos" required>
             </mat-form-field>
         </div>
+
+        <!-- <div class="form">
+            <mat-form-field>
+                <mat-label>Alumnos</mat-label>
+                <mat-select formControlName="alumnadoUnidad">
+                    <mat-option *ngFor="let alumno of alumnadoUnidadElegida" [value]="alumno.nombre">
+                        {{ alumno.nombre }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+
+        <div class="form">
+            <p>Alumnos disponibles:</p>
+            <ul>
+                <li *ngFor="let alumno of alumnadoUnidadElegida">
+                    {{ alumno.nombre }}
+                    <button mat-icon-button (click)="seleccionarAlumno(alumno)">Agregar</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="form">
+            <p>Alumnos seleccionados:</p>
+            <ul>
+                <li *ngFor="let alumno of alumnosSeleccionados">{{ alumno.nombre }} <button mat-icon-button (click)="quitarAlumno(alumno)">X</button></li>
+            </ul>
+        </div>
+        
 
         <div mat-dialog-actions>
             <button mat-button id="onSubmit" type="submit"  [disabled]="!vacanteForm.valid" (click)="confirmEdit()">Guardar</button>

@@ -29,6 +29,7 @@ export class VacantesComponent implements OnInit {
   entidadFilter = new FormControl();
   unidadFilter = new FormControl();
   numAlumnosFilter = new FormControl();
+  // alumnadoCentroFilter = new FormControl();
 
   permises: Permises;
 
