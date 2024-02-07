@@ -138,6 +138,7 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
       const searchTerms = JSON.parse(filter);
       return unidadCentro.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro) !== -1
           && unidadCentro.unidad_centro.toLowerCase().indexOf(searchTerms.unidad_centro.toLowerCase()) !== -1
+          && unidadCentro.id_ciclo.toString().indexOf(searchTerms.id_ciclo.toLowerCase()) !== -1
           && (unidadCentro.observaciones || '').toLowerCase().indexOf(searchTerms.observaciones.toLowerCase()) !== -1;
   };
     //   if(unidadCentro.observaciones!=null){
@@ -170,7 +171,7 @@ async deleteUnidadCentro(unidadCentro: UnidadCentro) {
 
       this.idCicloFilter.valueChanges
       .subscribe(value => {
-          this.filterValues.unidad_centro = value;
+          this.filterValues.id_ciclo = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
       });
 
