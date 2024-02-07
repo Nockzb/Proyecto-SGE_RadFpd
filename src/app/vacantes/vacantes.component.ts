@@ -10,6 +10,7 @@ import { Permises } from '../shared/interfaces/api-response';
 import { VacanteService } from '../services/vacantes.service';
 import { AddVacanteComponent } from './add-vacante/add-vacante.component';
 import { DeleteVacanteComponent } from './delete-vacante/delete-vacante.component';
+import { EditVacanteComponent } from './edit-vacante/edit-vacante.component';
 
 @Component({
   selector: 'app-vacantes',
@@ -72,15 +73,15 @@ export class VacantesComponent implements OnInit {
   }
 
   async editVacante(vacante: Vacante) {
-  //   const dialogRef = this.dialog.open(EditNivelComponent, { data: nivel, scrollStrategy: this.overlay.scrollStrategies.noop() });
-  //   const RESULT = await dialogRef.afterClosed().toPromise();
-  //   if (RESULT) {
-  //     if (RESULT.ok) {
-  //       //this.nivelesService.editNivel(RESULT.data);
-  //       //this.dataSource.data = this.nivelesService.nivel;
-  //       this.ngOnInit();
-  //     }
-  //   }  
+    const dialogRef = this.dialog.open(EditVacanteComponent, { data: vacante, scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        this.vacanteService.editVacante(RESULT.data);
+        this.dataSource.data = this.vacanteService.vacante;
+        this.ngOnInit();
+      }
+    }  
   }
 
   async deleteVacante(vacante: Vacante) {
