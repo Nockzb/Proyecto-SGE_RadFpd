@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 import { Vacante } from '../shared/interfaces/vacante';
 import { Permises } from '../shared/interfaces/api-response';
 import { VacanteService } from '../services/vacantes.service';
+import { AddVacanteComponent } from './add-vacante/add-vacante.component';
 
 @Component({
   selector: 'app-vacantes',
@@ -58,15 +59,15 @@ export class VacantesComponent implements OnInit {
   }
 
   async addVacante() {
-  //   const dialogRef = this.dialog.open(AddNivelComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
-  //   const RESULT = await dialogRef.afterClosed().toPromise();
-  //   if (RESULT) {
-  //     if (RESULT.ok) {
-  //       //this.nivelesService.nivel.push(RESULT.data);
-  //       //this.dataSource.data = this.nivelesService.nivel;
-  //       this.ngOnInit();
-  //     }
-  //   }  
+    const dialogRef = this.dialog.open(AddVacanteComponent, { scrollStrategy: this.overlay.scrollStrategies.noop() });
+    const RESULT = await dialogRef.afterClosed().toPromise();
+    if (RESULT) {
+      if (RESULT.ok) {
+        this.vacanteService.vacante.push(RESULT.data);
+        this.dataSource.data = this.vacanteService.vacante;
+        this.ngOnInit();
+      }
+    }  
   }
 
   async editVacante(vacante: Vacante) {
