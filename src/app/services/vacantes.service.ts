@@ -39,8 +39,14 @@ export class VacanteService {
   }
 
   /* prueba TODO: VERIFICAR METODO Y AGREGAR GET */
-  insertarAlumnosSeleccionados(idVacante: number, idAlumnos: number[]) {
-    const body = JSON.stringify({ id_vacante: idVacante, id_alumnos: idAlumnos });
-    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?action=insertarAlumnosSeleccionados`, body, { headers: this.commonService.headers });
+  getListadoAlumnos(id_vacante: number, id_unidad_centro: number){
+    const body = JSON.stringify({ id_vacante: id_vacante, id_unidad_centro: id_unidad_centro });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=buscar`, body, { headers: this.commonService.headers });
+  }
+
+  insertarAlumnosSeleccionados(id_vacante: number, idAlumnos: number[]) {
+    console.log({idAlumnos})
+    const body = JSON.stringify({ id_vacante: id_vacante, alumnosSeleccionados: idAlumnos });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=alumnado`, body, { headers: this.commonService.headers });
 }
 }

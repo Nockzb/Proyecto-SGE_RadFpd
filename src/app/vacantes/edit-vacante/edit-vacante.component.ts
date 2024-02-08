@@ -50,14 +50,20 @@ export class EditVacanteComponent implements OnInit {
 
     this.getEntidades();
     this.getUnidadesCentro();
-    this.getAlumnosUnidadElegida();
+    this.getAlumnosUnidadElegida(this.vacante.id_vacante, this.vacante.id_unidad_centro);
   }
 
-  async getAlumnosUnidadElegida() {
-    // TODO: CAMBIAR EL ID
-    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentro(this.vacante.id_unidad_centro).toPromise();
+  async getAlumnosUnidadElegida(id_vacante: number, id_unidad_centro:number) {
+    const RESPONSE = await this.servicioVacante.getListadoAlumnos(id_vacante, id_unidad_centro).toPromise();
     if (RESPONSE.ok) {
-      this.alumnadoUnidadElegida = RESPONSE.data as Alumno[];
+       RESPONSE.data.forEach(alumno => {
+        console.log(alumno)
+        if(alumno['estado'] == 0){
+          this.alumnadoUnidadElegida.push(alumno);
+        } else {
+          this.alumnosSeleccionados.push(alumno);
+        }
+    });
     }
   }
 
@@ -79,8 +85,13 @@ export class EditVacanteComponent implements OnInit {
     if (this.vacanteForm.valid) {
       const vacante = this.vacanteForm.value;
 
+      const idsAlumnos: number[] = vacante.alumnosSeleccionados.map(alumno => {
+        return alumno.id_alumno;
+      });
+
       const RESP = await this.servicioVacante.editVacante(vacante).toPromise();
       if (RESP.ok) {
+        const RESP2 = await this.servicioVacante.insertarAlumnosSeleccionados(vacante.id_vacante, idsAlumnos).toPromise();
         this.snackBar.open(RESP.message, CLOSE, { duration: 5000 });
         this.dialogRef.close({ok: RESP.ok, data: RESP.data});
       } else {
