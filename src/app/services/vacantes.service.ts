@@ -16,13 +16,13 @@ export class VacanteService {
   vacante: Vacante[];
 
   constructor(
-        private http: HttpClient, 
+        private http: HttpClient,
         private commonService: CommonService
     ) { }
 
   getVacantes() {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php`, { headers: this.commonService.headers });
-  } 
+  }
 
   addVacante(vacante: Vacante) {
     const body = JSON.stringify(vacante);
@@ -37,4 +37,10 @@ export class VacanteService {
   deleteVacante(id_vacante: number|string) {
     return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_vacante=${id_vacante}`, {headers: this.commonService.headers });
   }
+
+  /* prueba TODO: VERIFICAR METODO Y AGREGAR GET */
+  insertarAlumnosSeleccionados(idVacante: number, idAlumnos: number[]) {
+    const body = JSON.stringify({ id_vacante: idVacante, id_alumnos: idAlumnos });
+    return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?action=insertarAlumnosSeleccionados`, body, { headers: this.commonService.headers });
+}
 }
