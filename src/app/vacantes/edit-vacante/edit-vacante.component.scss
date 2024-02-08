@@ -1,17 +1,87 @@
 .container {
-    margin: 0 auto;
-    min-width: 30em;
-    text-align: center;
-    padding-top: 10px;
+  margin: 0 auto;
+  width: 800px; /* Ajusta el ancho según tus necesidades */
+  text-align: center;
+  margin-bottom: 10px; /* Reduce el margen inferior del contenedor */
 }
 
-div.mat-dialog-actions {
-    width: 12em;
-    margin: auto;
+.mat-dialog-title {
+  margin-top: 0; /* Elimina el margen superior del título */
 }
 
-.radioButton {
-    text-align: left;
-    margin-bottom: 1em;
-    padding-left: 0.2em;
+.actions {
+  margin-top: 20px; /* Ajusta la separación entre los botones y el resto del formulario */
 }
+
+.form {
+  margin-bottom: 20px; /* Ajusta la separación entre cada sección del formulario */
+}
+
+.mat-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-icon-button {
+  margin-left: 5px; /* Ajusta la separación entre el icono y el texto del alumno */
+}
+
+.alumnos-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1px; /* Ajusta la separación entre las tablas */
+}
+
+.alumnos-table {
+  width: 60%; /* Ajusta el ancho de la tabla */
+  border-collapse: collapse;
+  margin-bottom: 0; /* Elimina el margen inferior de la tabla */
+}
+
+.alumnos-table th, .alumnos-table td {
+  border: 1px solid #ddd;
+  padding: 4px;
+  text-align: center;
+  font-size: 12px; /* Tamaño de fuente ajustable */
+  min-width: 100px; /* Ancho mínimo ajustable para evitar que los campos se contraigan demasiado */
+  max-width: 200px; /* Ancho máximo ajustable para evitar que los campos se expandan demasiado */
+}
+
+.alumnos-table tr {
+  padding:-1px;
+}
+
+.alumnos-table th {
+  background-color: #f2f2f2;
+}
+
+
+.mat-icon-button {
+  background-color: transparent;
+  border: none;
+}
+
+.mat-icon-button:hover {
+  background-color: #e0e0e0;
+}
+
+
+// .container {
+//     margin: 0 auto;
+//     min-width: 40em;
+//     min-height: 50em;
+//     text-align: center;
+//     padding-top: 6px;
+// }
+
+// div.mat-dialog-actions {
+//     width: 12em;
+//     margin: auto;
+// }
+
+// .radioButton {
+//     text-align: left;
+//     margin-bottom: 1em;
+//     padding-left: 0.2em;
+// }

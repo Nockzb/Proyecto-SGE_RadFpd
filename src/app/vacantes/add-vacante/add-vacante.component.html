@@ -12,12 +12,12 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        
+
         <div class="form">
             <mat-form-field>
                 <mat-label>Unidad Centro</mat-label>
-                <mat-select formControlName="unidad">
-                    <mat-option *ngFor="let unidad of unidades" [value]="unidad.unidad_centro">
+                <mat-select formControlName="id_unidad_centro">
+                    <mat-option *ngFor="let unidad of unidades" [value]="unidad.id_unidad_centro">
                         {{ unidad.unidad_centro }}
                     </mat-option>
                 </mat-select>

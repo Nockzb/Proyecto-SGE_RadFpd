@@ -27,14 +27,14 @@ export class VacantesComponent implements OnInit {
 
   idVacanteFilter = new FormControl();
   entidadFilter = new FormControl();
-  unidadFilter = new FormControl();
+  idUnidadCentroFilter = new FormControl();
   numAlumnosFilter = new FormControl();
-  // alumnadoCentroFilter = new FormControl();
+
 
   permises: Permises;
 
   displayedColumns: string[];
-  private filterValues = { id_vacante: '', entidad: '', unidad: '' , num_alumnos: '' };
+  private filterValues = { id_vacante: '', entidad: '', id_unidad_centro: '' , num_alumnos: '' };
 
   constructor(
     public dialog: MatDialog,
@@ -52,13 +52,13 @@ export class VacantesComponent implements OnInit {
 
     if (RESPONSE.ok) {
       this.vacanteService.vacante = RESPONSE.data as Vacante[];
-      this.displayedColumns = ['id_vacante', 'entidad', 'unidad', 'num_alumnos', 'actions'];
+      this.displayedColumns = ['id_vacante', 'entidad', 'id_unidad_centro', 'num_alumnos', 'actions'];
       this.dataSource.data = this.vacanteService.vacante;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.dataSource.filterPredicate = this.createFilter();
       this.onChanges();
-    }  
+    }
   }
 
   async addVacante() {
@@ -70,7 +70,7 @@ export class VacantesComponent implements OnInit {
         this.dataSource.data = this.vacanteService.vacante;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async editVacante(vacante: Vacante) {
@@ -82,7 +82,7 @@ export class VacantesComponent implements OnInit {
         this.dataSource.data = this.vacanteService.vacante;
         this.ngOnInit();
       }
-    }  
+    }
   }
 
   async deleteVacante(vacante: Vacante) {
@@ -103,7 +103,7 @@ export class VacantesComponent implements OnInit {
 
       return vacante.id_vacante.toString().indexOf(searchTerms.id_vacante) !== -1
         && vacante.entidad.toLowerCase().indexOf(searchTerms.entidad.toLowerCase()) !== -1
-        && vacante.unidad.toLowerCase().indexOf(searchTerms.unidad.toLowerCase()) !== -1
+        && vacante.id_unidad_centro.toString().indexOf(searchTerms.id_unidad_centro.toLowerCase()) !== -1
         && vacante.num_alumnos.toString().indexOf(searchTerms.num_alumnos.toLowerCase()) !== -1;
     };
 
@@ -116,23 +116,23 @@ export class VacantesComponent implements OnInit {
           this.filterValues.id_vacante = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
       });
-  
+
       this.entidadFilter.valueChanges
       .subscribe(value => {
           this.filterValues.entidad = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
-      }); 
+      });
 
-      this.unidadFilter.valueChanges
+      this.idUnidadCentroFilter.valueChanges
       .subscribe(value => {
-          this.filterValues.unidad = value;
+          this.filterValues.id_unidad_centro = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
-      });  
-    
+      });
+
       this.numAlumnosFilter.valueChanges
       .subscribe(value => {
           this.filterValues.num_alumnos = value;
           this.dataSource.filter = JSON.stringify(this.filterValues);
-      });     
+      });
   }
 }

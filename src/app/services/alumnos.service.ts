@@ -15,7 +15,7 @@ export class AlumnosService {
   alumno: Alumno;
   alumnos: Alumno[];
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
               private commonService: CommonService) { }
 
   setAlumno(alumno: Alumno) {
@@ -36,10 +36,6 @@ export class AlumnosService {
 
   getAlumnosUnidadCentro(id_unidad_centro: number) {
     return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_unidad_centro=${id_unidad_centro}`, { headers: this.commonService.headers });
-  }
-
-  getAlumnosUnidadCentroByNombre(unidad_centro: string) {
-    return this.http.get<ApiResponse>(`${URL_API}/${ENDPOINT}.php?unidad_centro=${unidad_centro}`, { headers: this.commonService.headers });
   }
 
   addAlumno(alumno: Alumno) {

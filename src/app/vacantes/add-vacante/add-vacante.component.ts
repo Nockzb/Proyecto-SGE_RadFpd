@@ -14,12 +14,13 @@ import { UnidadCentro } from 'src/app/shared/interfaces/unidad-centro';
   templateUrl: './add-vacante.component.html',
   styleUrls: ['./add-vacante.component.scss']
 })
+
 export class AddVacanteComponent implements OnInit {
   vacanteForm: FormGroup;
   entidades: Entidad[];
   unidades: UnidadCentro[];
 
-  constructor(public dialogRef: MatDialogRef<AddVacanteComponent>,              
+  constructor(public dialogRef: MatDialogRef<AddVacanteComponent>,
               private servicioVacante: VacanteService,
               private servicioEntidades: EntidadesService,
               private servicioUnidadesCentro: UnidadesCentroService,
@@ -30,8 +31,8 @@ export class AddVacanteComponent implements OnInit {
     this.vacanteForm = new FormGroup({
       id_vacante: new FormControl(0),
       entidad: new FormControl(null, Validators.required),
-      unidad: new FormControl(null, Validators.required),
-      num_alumnos: new FormControl(null, Validators.required),     
+      id_unidad_centro: new FormControl(null, Validators.required),
+      num_alumnos: new FormControl(null, Validators.required),
     });
 
     this.getEntidades();
@@ -53,7 +54,6 @@ export class AddVacanteComponent implements OnInit {
   }
 
   async confirmAdd() {
-    // console.log(this.usuarioForm.value);
     if (this.vacanteForm.valid) {
       const vacante = this.vacanteForm.value;
 

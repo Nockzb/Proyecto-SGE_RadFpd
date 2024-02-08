@@ -25,14 +25,15 @@ export class EditVacanteComponent implements OnInit {
   alumnadoUnidadElegida: Alumno[];
   alumnosSeleccionados: Alumno[];
 
-  constructor(public dialogRef: MatDialogRef<EditVacanteComponent>,              
+  constructor(public dialogRef: MatDialogRef<EditVacanteComponent>,
     private servicioVacante: VacanteService,
     private servicioEntidades: EntidadesService,
     private servicioUnidadesCentro: UnidadesCentroService,
     private servicioAlumnos: AlumnosService,
     public snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public vacante: Vacante
-  ) { 
+    @Inject(MAT_DIALOG_DATA) public vacante: Vacante,
+  ) {
+    // TODO ALMACENAR SELECCIONES
     this.alumnadoUnidadElegida = [];
     this.alumnosSeleccionados = [];
   }
@@ -41,10 +42,10 @@ export class EditVacanteComponent implements OnInit {
     this.vacanteForm = new FormGroup({
       id_vacante: new FormControl(this.vacante.id_vacante),
       entidad: new FormControl(this.vacante.entidad, Validators.required),
-      unidad: new FormControl(this.vacante.unidad, Validators.required),
+      id_unidad_centro: new FormControl(this.vacante.id_unidad_centro, Validators.required),
       num_alumnos: new FormControl(this.vacante.num_alumnos, Validators.required),
       alumnadoUnidad: new FormControl(this.alumnadoUnidadElegida),
-      alumnosSeleccionados: new FormControl(this.alumnosSeleccionados)     
+      alumnosSeleccionados: new FormControl(this.alumnosSeleccionados)
     });
 
     this.getEntidades();
@@ -53,7 +54,8 @@ export class EditVacanteComponent implements OnInit {
   }
 
   async getAlumnosUnidadElegida() {
-    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentro(34).toPromise();
+    // TODO: CAMBIAR EL ID
+    const RESPONSE = await this.servicioAlumnos.getAlumnosUnidadCentro(this.vacante.id_unidad_centro).toPromise();
     if (RESPONSE.ok) {
       this.alumnadoUnidadElegida = RESPONSE.data as Alumno[];
     }
@@ -98,7 +100,7 @@ export class EditVacanteComponent implements OnInit {
     const index = this.alumnadoUnidadElegida.indexOf(alumno);
     if (index !== -1) {
       this.alumnadoUnidadElegida.splice(index, 1);
-    } 
+    }
   }
 
   async quitarAlumno(alumno: Alumno) {
@@ -106,7 +108,7 @@ export class EditVacanteComponent implements OnInit {
     const index = this.alumnosSeleccionados.indexOf(alumno);
     if (index !== -1) {
       this.alumnosSeleccionados.splice(index, 1);
-    } 
+    }
     // Se devuelve a lista de la unidad
     //if (!this.alumnadoUnidadElegida.includes(alumno)) {
       this.alumnadoUnidadElegida.push(alumno);
