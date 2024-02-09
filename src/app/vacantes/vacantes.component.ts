@@ -12,6 +12,8 @@ import { AddVacanteComponent } from './add-vacante/add-vacante.component';
 import { DeleteVacanteComponent } from './delete-vacante/delete-vacante.component';
 import { EditVacanteComponent } from './edit-vacante/edit-vacante.component';
 import { Alumno } from '../shared/interfaces/alumno';
+import { UnidadesCentroService } from '../services/unidades-centro.service';
+import { UnidadCentro } from '../shared/interfaces/unidad-centro';
 
 @Component({
   selector: "app-vacantes",
@@ -20,6 +22,8 @@ import { Alumno } from '../shared/interfaces/alumno';
 })
 export class VacantesComponent implements OnInit {
   vacantes: Vacante[] = [];
+  unidades: UnidadCentro[];
+  unidadCentroSeleccionada: string;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -44,11 +48,28 @@ export class VacantesComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private vacanteService: VacanteService,
+    private servicioUnidadesCentro: UnidadesCentroService,
     private overlay: Overlay
   ) { }
 
   ngOnInit(): void {
     this.getVacantes();
+    this.getUnidadesCentro();
+  }
+
+  async getUnidadesCentro() {
+    const RESPONSE = await this.servicioUnidadesCentro
+      .getAllUnidadesCentro()
+      .toPromise();
+    if (RESPONSE.ok) {
+      this.unidades = RESPONSE.data as UnidadCentro[];
+    }
+  }
+
+  // Método para mostrar el nombre de la unidad_centro correspondiente al id_unidad_centro elegido
+  getNombreUnidadCentroSeleccionada(id_unidad_centro: number): string {
+    const unidadSeleccionada = this.unidades.find(unidad => unidad.id_unidad_centro === id_unidad_centro);
+    return unidadSeleccionada ? unidadSeleccionada.unidad_centro : '';
   }
 
   async getVacantes() {
@@ -67,6 +88,7 @@ export class VacantesComponent implements OnInit {
         "id_vacante",
         "entidad",
         "id_unidad_centro",
+        "unidad_centro",
         "num_alumnos",
         "elegidos_total",
         "actions",
@@ -80,7 +102,7 @@ export class VacantesComponent implements OnInit {
   }
 
   async getAlumnosSeleccionados(vacante: Vacante) {
-    const RESPONSE = await this.vacanteService.getListadoAlumnos(vacante.id_vacante, vacante.id_unidad_centro).toPromise();
+    const RESPONSE = await this.vacanteService.getListadoAlumnos(vacante.id_unidad_centro).toPromise();
     if (RESPONSE.ok) {
       const alumnosSeleccionados: Alumno[] = RESPONSE.data.filter(alumno => alumno.estado === 1);
       vacante.elegidos_total = `${alumnosSeleccionados.length}/${vacante.num_alumnos}`;

@@ -18,13 +18,20 @@
                 <mat-label>Unidad Centro</mat-label>
                 <mat-select formControlName="id_unidad_centro">
                     <mat-option *ngFor="let unidad of unidades" [value]="unidad.id_unidad_centro">
-                        {{ unidad.unidad_centro }}
+                        {{ unidad.id_unidad_centro }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
 
-        <mat-form-field appearance="fill">
+        <div class="form">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre de la Unidad Centro</mat-label>
+            <input matInput [value]="getNombreUnidadCentroSeleccionada()" readonly>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field>
           <mat-label>Número total de Alumnos</mat-label>
           <mat-select [formControl]="num_alumnos" (change)="onChangeNumAlumnos()">
             <mat-option *ngFor="let num of generarOpciones()" [value]="num">

@@ -38,8 +38,8 @@ export class VacanteService {
     return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_vacante=${id_vacante}`, {headers: this.commonService.headers });
   }
 
-  getListadoAlumnos(id_vacante: number, id_unidad_centro: number){
-    const body = JSON.stringify({ id_vacante: id_vacante, id_unidad_centro: id_unidad_centro });
+  getListadoAlumnos(id_unidad_centro: number) {
+    const body = JSON.stringify({ id_unidad_centro: id_unidad_centro });
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=buscar`, body, { headers: this.commonService.headers });
   }
 

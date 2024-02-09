@@ -69,7 +69,7 @@ export class EditVacanteComponent implements OnInit  {
 
     this.getEntidades();
     this.getUnidadesCentro();
-    this.getAlumnosUnidadElegida(this.vacante.id_vacante, this.vacante.id_unidad_centro);
+    this.getAlumnosUnidadElegida(this.vacante.id_unidad_centro);
   }
 
   // Método para actualizar el estado de las opciones del mat-select
@@ -124,8 +124,8 @@ export class EditVacanteComponent implements OnInit  {
     this.vacanteForm.get("elegidos_total").setValue(`${cantidadSeleccionadosVacante}/${numAlumnosTotal}`);
   }
 
-  async getAlumnosUnidadElegida(id_vacante: number, id_unidad_centro: number) {
-    const RESPONSE = await this.servicioVacante.getListadoAlumnos(id_vacante, id_unidad_centro).toPromise();
+  async getAlumnosUnidadElegida(id_unidad_centro: number) {
+    const RESPONSE = await this.servicioVacante.getListadoAlumnos(id_unidad_centro).toPromise();
     if (RESPONSE.ok) {
       RESPONSE.data.forEach((alumno) => {
         if (alumno["estado"] == 0) {
@@ -240,6 +240,13 @@ export class EditVacanteComponent implements OnInit  {
     if (RESPONSE.ok) {
       this.unidades = RESPONSE.data as UnidadCentro[];
     }
+  }
+
+  // Método para mostrar el nombre de la unidad_centro correspondiente al id_unidad_centro elegido
+  getNombreUnidadCentroSeleccionada(): string {
+    const idSeleccionado = this.vacanteForm.get('id_unidad_centro').value;
+    const unidadSeleccionada = this.unidades.find(unidad => unidad.id_unidad_centro === idSeleccionado);
+    return unidadSeleccionada ? unidadSeleccionada.unidad_centro : '';
   }
 
   onNoClick(): void {

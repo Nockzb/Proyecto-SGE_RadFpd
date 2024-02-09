@@ -26,10 +26,20 @@
                 <td mat-cell *matCellDef="let vacante"> {{ vacante.id_unidad_centro }} </td>
             </ng-container>
 
+            <ng-container matColumnDef="unidad_centro">
+              <th mat-header-cell *matHeaderCellDef>
+                <input matInput [formControl]="numAlumnosFilter" placeholder="Unida Centro">
+                <span mat-sort-header></span>
+              </th>
+              <td mat-cell *matCellDef="let vacante" readonly>
+                {{ getNombreUnidadCentroSeleccionada(vacante.id_unidad_centro) }}
+              </td>
+            </ng-container>
+
             <ng-container matColumnDef="num_alumnos">
                 <th mat-header-cell *matHeaderCellDef>
-                    <input matInput [formControl]="numAlumnosFilter" placeholder="Número de alumnos">
-                    <span mat-sort-header></span>
+                  <input matInput [formControl]="numAlumnosFilter" placeholder="Número de alumnos">
+                  <span mat-sort-header></span>
                 </th>
                 <td mat-cell *matCellDef="let vacante"> {{ vacante.num_alumnos }} </td>
             </ng-container>
