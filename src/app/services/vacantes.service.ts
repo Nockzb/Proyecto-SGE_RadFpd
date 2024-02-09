@@ -38,13 +38,16 @@ export class VacanteService {
     return this.http.delete<ApiResponse>(`${URL_API}/${ENDPOINT}.php?id_vacante=${id_vacante}`, {headers: this.commonService.headers });
   }
 
+  // Método que devuelve los alumnos de una unidad_centro,
+  // contiene una propiedad 'estado' que indica si ha sido seleccionado para una vacante (1) o no (0)
   getListadoAlumnos(id_unidad_centro: number) {
     const body = JSON.stringify({ id_unidad_centro: id_unidad_centro });
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=buscar`, body, { headers: this.commonService.headers });
   }
 
+  // Mñetodo que inserta los alumnos seleccionados en la vacante en la tabla sgi_vacantes_X_alumnos
   insertarAlumnosSeleccionados(id_vacante: number, idAlumnos: number[]) {
     const body = JSON.stringify({ id_vacante: id_vacante, alumnosSeleccionados: idAlumnos });
     return this.http.post<ApiResponse>(`${URL_API}/${ENDPOINT}.php?opcion=alumnado`, body, { headers: this.commonService.headers });
-}
+  }
 }
